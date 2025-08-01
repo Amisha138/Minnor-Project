@@ -1,0 +1,61 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(114, 60, 60);
+  padding: 10px 30px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-left a {
+  margin-right: 20px;
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  font-size: large;
+  cursor: pointer;
+
+}
+
+.navbar-right i {
+
+  color: white;
+  padding: 10px;
+  justify-content: end;
+  margin: 0px;
+  cursor: pointer;
+
+
+}
+
+
+
+.navbar-right :hover {
+  color: blue;
+
+
+}
+
+.navbar-left :hover {
+  color: blue;
+
+}
+
+.fa-magnifying-glass {
+  font-size: 17px;
+}
+
+.fa-heart {
+  font-size: 18px;
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+}
