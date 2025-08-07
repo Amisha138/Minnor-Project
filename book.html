@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Responsive Navbar</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgb(114, 60, 60);
+      padding: 10px 30px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar-left,
+    .navbar-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .navbar-left a,
+    .navbar-right i {
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      font-size: large;
+      cursor: pointer;
+    }
+
+    .navbar-left a:hover,
+    .navbar-right i:hover {
+      color: blue;
+    }
+
+    .navbar-left img {
+      height: 40px;
+      width: 40px;
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 24px;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* Mobile view */
+    @media (max-width: 500px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .navbar-left,
+      .navbar-right {
+        flex-direction: column;
+        width: 100%;
+        display: none;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .navbar-left.show,
+      .navbar-right.show {
+        display: flex;
+      }
+
+      .hamburger {
+        display: block;
+        align-self: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <!-- Hamburger for small screens -->
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+
+    <!-- LEFT: Logo and links -->
+    <div class="navbar-left" id="navLeft">
+      <a href="#"><img src="go.jpg" alt="Logo" /></a>
+      <a href="Home.html">Home</a>
+      <a href="#">About Us</a>
+      <a href="help.html">Help</a>
+    </div>
+
+    <!-- RIGHT: Icons -->
+    <div class="navbar-right" id="navRight">
+      <i class="fas fa-magnifying-glass"></i>
+      <i class="fas fa-heart"></i>
+      <i class="fas fa-circle-user"></i>
+    </div>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("navLeft").classList.toggle("show");
+      document.getElementById("navRight").classList.toggle("show");
+    }
+  </script>
+
+</body>
+</html>

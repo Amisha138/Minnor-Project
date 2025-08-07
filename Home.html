@@ -13,23 +13,33 @@
 </head>
 
 <body>
-    <div class="navbar">
-        <div class="navbar-left">
-            <a href="#"><img src="go.jpg" height="40px" width="40px"></a>
-            <a href="Home.html">Home</a>
-            <a href="#">About Us</a>
-            <a href="help.html">Help</a>
-            <a href="#">Contact Us</a>
-        </div>
-        <div class="navbar-right">
-            <a href="#"><i class="fa-regular fa-heart"></i></a>
-            <a><i class="fa-solid fa-magnifying-glass"></i></a>
+    
+  <div class="navbar">
+    <!-- Hamburger for small screens -->
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
 
-
-
-
-        </div>
+    <!-- LEFT: Logo and links -->
+    <div class="navbar-left" id="navLeft">
+      <a href="#"><img src="go.jpg" alt="Logo" /></a>
+      <a href="Home.html">Home</a>
+      <a href="#">About Us</a>
+      <a href="help.html">Help</a>
     </div>
+
+    <!-- RIGHT: Icons -->
+    <div class="navbar-right" id="navRight">
+      <i class="fas fa-magnifying-glass"></i>
+      <i class="fas fa-heart"></i>
+      <i class="fas fa-circle-user"></i>
+    </div>
+  </div>
+  <script>
+    function toggleMenu() {
+      document.getElementById("navLeft").classList.toggle("show");
+      document.getElementById("navRight").classList.toggle("show");
+    }
+  </script>
+
     <h1 style="padding-top: 10px;">Select your class</h1>
     <div class="container">
 

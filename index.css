@@ -3,13 +3,14 @@
     padding: 0px;
     background-color: rgb(241, 240, 240);
 
-}
+
+    }
 
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: white;
+    background-color: rgb(118, 98, 98);
     padding: 10px 30px;
     position: sticky;
     top: 0;
@@ -29,11 +30,11 @@
 }
 
 .navbar-right {
-    background-color: white;
+    background-color: rgb(118, 98, 98);
 }
 
 .navbar-right a {
-    background-color: white;
+    background-color: rgb(118, 98, 98);
 }
 
 .navbar-right button {
@@ -50,15 +51,21 @@
 
 
 
-.navbar-left :hover {
-    color: rgb(118, 98, 98);
-
-}
 
 .navbar-right button:hover {
-    background-color: rgb(118, 98, 98);
+    background-color: blue;
+    color: white;
 
 }
+
+
+
+
+
+
+
+
+
 
 
 

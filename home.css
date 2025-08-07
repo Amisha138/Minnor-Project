@@ -2,69 +2,83 @@
    margin: 0;
    font-family: Arial, sans-serif;
  }
+ 
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgb(114, 60, 60);
+      padding: 10px 30px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 50px;
+    }
 
- .navbar {
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   background-color: rgb(114, 60, 60);
-   padding: 10px 30px;
-   position: sticky;
-   top: 0;
-   z-index: 100;
- }
+    .navbar-left,
+    .navbar-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
 
- .navbar-left a {
-   margin-right: 20px;
-   text-decoration: none;
-   color: white;
-   font-weight: bold;
-   font-size: large;
-   cursor: pointer;
+    .navbar-left a,
+    .navbar-right i {
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      font-size: large;
+      cursor: pointer;
+    }
 
- }
+    .navbar-left a:hover,
+    .navbar-right i:hover {
+      color: blue;
+    }
 
- .navbar-right i {
+    .navbar-left img {
+      height: 40px;
+      width: 40px;
+    }
 
-   color: white;
-   justify-content: end;
-   margin-right: 0px;
-   padding: 10px;
-   cursor: pointer;
+    .hamburger {
+      display: none;
+      font-size: 24px;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* Mobile view */
+    @media (max-width: 500px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .navbar-left,
+      .navbar-right {
+        flex-direction: column;
+        width: 100%;
+        display: none;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .navbar-left.show,
+      .navbar-right.show {
+        display: flex;
+      }
+
+      .hamburger {
+        display: block;
+        align-self: flex-start;
+      }
+    }
 
 
- }
 
 
 
- .navbar-right :hover {
-   color: blue;
-
-
- }
-
- .navbar-left :hover {
-   color: blue;
-
- }
-
- .fa-magnifying-glass {
-   font-size: 17px;
-
- }
-
- .fa-heart {
-   font-size: 18px;
- }
-
- @media (max-width: 600px) {
-   .navbar {
-     flex-direction: column;
-     align-items: flex-start;
-     gap: 10px;
-   }
-
- }
 
 
  .container {

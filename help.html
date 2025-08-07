@@ -13,20 +13,141 @@
 
 <body>
     <div class="navbar">
-        <div class="navbar-left">
-            <a href="#"><img src="go.jpg" height="40px" width="40px"></a>
-            <a href="Home.html">Home</a>
-            <a href="#">About Us</a>
-            <a href="#">Help</a>
-            <a href="#">Contact Us</a>
-        </div>
-        <div class="navbar-right">
-               <a href="#"><i class="fa-regular fa-heart"></i></a>
-            <a><i class="fa-solid fa-magnifying-glass"></i></a>
+    <!-- Hamburger for small screens -->
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
 
+    <!-- LEFT: Logo and links -->
+    <div class="navbar-left" id="navLeft">
+      <a href="#"><img src="go.jpg" alt="Logo" /></a>
+      <a href="Home.html">Home</a>
+      <a href="#">About Us</a>
+      <a href="help.html">Help</a>
+    </div>
+
+    <!-- RIGHT: Icons -->
+    <div class="navbar-right" id="navRight">
+      <i class="fas fa-magnifying-glass"></i>
+      
+      <i class="fas fa-circle-user"></i>
+    </div>
+  </div>
+  <script>
+    function toggleMenu() {
+      document.getElementById("navLeft").classList.toggle("show");
+      document.getElementById("navRight").classList.toggle("show");
+    }
+  </script>
+
+   
+  <div class="container">
+    <h1>Help & Support</h1>
+
+    <div class="box">
+      <div class="box-item">
+        <button class="box-btn">1. About Our Platform ▼</button>
+        <div class="box-content">
+          <p>Welcome to our online book exchange! We believe every book deserves a new reader. Here, you can give your books a second life by selling, donating, or swapping them with others in your community — all with just a few clicks.
+
+<br><br>Our mission is to make books more accessible and sustainable by creating a platform where readers can exchange, sell, or donate books safely. We aim to build a community of book lovers who share knowledge while reducing waste.</p>
         </div>
+      </div>
+
+      <div class="box-item">
+        <button class="box-btn">2. How to use the platform ▼</button>
+        <div class="box-content">
+          <ul>
+            <li><strong>How to upload my book?</strong><br><br>Go to “Upload Book” and fill in the details with clear photos.</li><br>
+            <li><strong>How to exchange my book?</strong><br><br>1. Browse the book you want<br>
+
+
+2. Select your book to offer <br>
+
+
+3. Click "Send Exchange Request"<br>
+
+
+4. Chat with the user<br>
+
+
+5. Meet and exchange the books
+</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="box-item">
+        <button class="box-btn">3. Frequently Asked Questions ▼</button>
+        <div class="box-content">
+          <ul>
+            <li><strong>How to create an account?</strong><br>Click on 'Sign Up' → fill in your details →click on sign up button.
+
+
+
+
+</li>
+            <li><strong>Is book exchange free?</strong><br>Yes, exchanging books is completely free on our platform.</li>
+            <li><strong>How do I contact another user?</strong><br>You can message them through the in-platform chat after logging in.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-section">
+      <h2>📞 Contact Support</h2>
+      <p><strong>Email:</strong> abc123@gmail.com</p>
+      <p><strong>Phone:</strong> +1 9876543210</p>
     </div>
     
+    <textarea placeholder="chat for other help..." rows="10"></textarea>
+ 
+  </div>
+
+  <script src="help.js"></script>
+
+
+     <footer>
+        <div class="footer-container">
+
+            <div class="footer-box">
+                <h3>About Us</h3>
+                <p>We are a student-driven online platform that allows you to exchange books easily and affordably.
+                    Reduce waste, share knowledge, and connect with readers.</p>
+            </div>
+
+            <div class="footer-box">
+                <h3>Quick Links</h3>
+                <a href="#">Home</a><br>
+                <a href="#">Browse Books</a><br>
+                <a href="#">Post a Book</a><br>
+                <a href="#">Login / Register</a>
+            </div>
+
+            <div class="footer-box">
+                <h3>Contact Info</h3>
+                <p>Email: support@bookexchange.com</p>
+                <p>Phone: +91-9876543210</p>
+                <p>Address: Patna, Bihar, India</p>
+            </div>
+            <div class="footer-box">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i>Facebook</a><br>
+                    <a href="#"><i class="fab fa-twitter"></i>Twitter</a><br>
+                    <a href="#"><i class="fab fa-instagram"></i>Instagram</a><br>
+                    <a href="#"><i class="fab fa-linkedin"></i>Linkedin</a>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="footer-bottom">
+            &copy; 2025 BookExchange | All rights reserved.
+        </div>
+    </footer>
+
+
+
 </body>
 
 </html>
