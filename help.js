@@ -1,3 +1,9 @@
+
+function toggleMenu() {
+      document.getElementById("navLeft").classList.toggle("show");
+      document.getElementById("navRight").classList.toggle("show");
+    }
+
 const buttons = document.querySelectorAll(".box-btn");
 
 buttons.forEach(btn => {
@@ -26,3 +32,33 @@ buttons.forEach(btn => {
     }
   });
 });
+
+
+
+
+function sendMessage() {
+  const input = document.getElementById("userInput");
+  const text = input.value.trim();
+  if (text !== "") {
+    const chatMessages = document.getElementById("chatMessages");
+
+    // User message
+    const userMsg = document.createElement("div");
+    userMsg.classList.add("message", "user");
+    userMsg.innerText = text;
+    chatMessages.appendChild(userMsg);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    input.value = "";
+
+    // Simulated support reply
+    setTimeout(() => {
+      const supportMsg = document.createElement("div");
+      supportMsg.classList.add("message", "support");
+      supportMsg.innerText = "Thanks for reaching out! We'll reply soon.";
+      chatMessages.appendChild(supportMsg);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }, 1000);
+  }
+}
+
