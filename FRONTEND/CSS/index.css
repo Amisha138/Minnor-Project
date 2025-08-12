@@ -64,7 +64,95 @@
    cursor: pointer;
  }
 
+
+
  /* Mobile view */
+
+ @media (max-width: 500px) {
+
+   .navbar {
+
+     flex-direction: column;
+
+     align-items: flex-start;
+
+    
+
+   } 
+
+   }
+
+    @media (max-width: 500px)
+
+    {
+
+       .navbar-left a,
+
+     .navbar-left i{
+
+      color: blue;
+
+ }
+
+ .navbar-right a,
+
+     .navbar-right i{
+
+      color: blue;
+
+     }
+
+   .navbar-right button {
+
+      background-color: blue;
+
+      color: white;
+
+     }
+
+   
+
+
+
+   .navbar-left, 
+
+   .navbar-right {
+
+     flex-direction: column;
+
+     width: 100%;
+
+     display: none;
+
+     gap: 10px;
+
+     margin-top: 10px;
+
+   }
+
+
+
+   .navbar-left.show,
+
+   .navbar-right.show {
+
+     display: flex;
+
+   }
+
+
+
+   .hamburger {
+
+     display: block;
+
+     align-self: flex-start;
+
+    
+
+   }
+
+ } /* Mobile view */
  @media (max-width: 500px) {
    .navbar {
      flex-direction: column;
@@ -77,10 +165,12 @@
        .navbar-left a,
      .navbar-left i{
       color: blue;
+      margin: left 0px; ;
  }
  .navbar-right a,
      .navbar-right i{
       color: blue;
+      margin-left: 0px;
      }
    .navbar-right button {
       background-color: blue;
@@ -88,13 +178,14 @@
      }
    
 
-   .navbar-left,
+   .navbar-left, 
    .navbar-right {
      flex-direction: column;
      width: 100%;
      display: none;
      gap: 10px;
      margin-top: 10px;
+     margin-left: 0px;
    }
 
    .navbar-left.show,
@@ -109,8 +200,7 @@
    }
  }
 
-  
- 
+
 
 .upload-btn {
     position: fixed;
