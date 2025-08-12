@@ -14,6 +14,22 @@
    z-index: 100;
    height: 50px;
  }
+ .navbar-right button {
+
+    cursor: pointer;
+    width: 90px;
+    height: 30px;
+    border-radius: 10px;
+
+    background-color: white;
+    margin: 10px;
+
+}
+.navbar-right button:hover {
+    background-color: blue;
+    color: white;
+
+}
 
  .navbar-left,
  .navbar-right {
@@ -53,7 +69,24 @@
    .navbar {
      flex-direction: column;
      align-items: flex-start;
+    
+   } 
    }
+    @media (max-width: 500px)
+    {
+       .navbar-left a,
+     .navbar-left i{
+      color: blue;
+ }
+ .navbar-right a,
+     .navbar-right i{
+      color: blue;
+     }
+   .navbar-right button {
+      background-color: blue;
+      color: white;
+     }
+   
 
    .navbar-left,
    .navbar-right {
@@ -72,8 +105,12 @@
    .hamburger {
      display: block;
      align-self: flex-start;
+    
    }
  }
+
+  
+ 
 
 .upload-btn {
     position: fixed;
