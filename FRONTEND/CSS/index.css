@@ -3,225 +3,106 @@
    font-family: Arial, sans-serif;
  }
 
- .navbar {
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   background-color: rgb(114, 60, 60);
-   padding: 10px 30px;
-   position: sticky;
-   top: 0;
-   z-index: 100;
-   height: 50px;
+.navbar{
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(114, 60, 60);
+  height:50px;
+  color: white;
+}
+ .logo{
+padding-top: 20px;
+  font-size:large;
+  font-family: Arial, Helvetica, sans-serif;
+ 
+}
+
+.navbar-left{
+  display: flex;
+  justify-content: space-between;
+  gap:30px;
+  margin-top: 20px;
+}
+.navbar-left a{
+  
+color: white;
+
+
+}
+ li{
+list-style-type:  none;
  }
- .navbar-right button {
+.navbar-right{
+  margin: 20px;
+}
+.navbar-right a{
+  font-size : 20px;
+  padding: 5px;
+  color: white;
+  margin: 10px;
+}
 
-    cursor: pointer;
-    width: 90px;
-    height: 30px;
-    border-radius: 10px;
 
+.navbar-left a:hover{
+    color: blue;
     background-color: white;
-    margin: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 3px;
+
+  }
+  .navbar-right a:hover{
+    color: blue;
+  }
+  
+  
+
+
+@media (max-width:500px) {
+  
+  .navbar-left,.logo,.button{
+    display: none;
+  }
+  button{
+    display: none;
+  }
+  
+
+
 
 }
-.navbar-right button:hover {
-    background-color: blue;
-    color: white;
 
-}
 
- .navbar-left,
- .navbar-right {
-   display: flex;
-   align-items: center;
-   gap: 20px;
- }
 
- .navbar-left a,
- .navbar-right i {
-   text-decoration: none;
+
+
+
+
+ .upload-btn {
+   position: fixed;
+   bottom: 20px;
+   left: 50%;
+   transform: translateX(-50%);
+   background-color: rgb(99, 99, 241);
    color: white;
-   font-weight: bold;
-   font-size: large;
+   padding: 12px 24px 30px 20px;
+   border: none;
+   border-radius: 30px;
+   font-size: 16px;
    cursor: pointer;
- }
-
- .navbar-left a:hover,
- .navbar-right i:hover {
-   color: blue;
- }
-
- .navbar-left img {
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+   z-index: 999;
+   width: 120px;
    height: 40px;
-   width: 40px;
- }
-
- .hamburger {
-   display: none;
-   font-size: 24px;
-   color: white;
-   cursor: pointer;
- }
-
-
-
- /* Mobile view */
-
- @media (max-width: 500px) {
-
-   .navbar {
-
-     flex-direction: column;
-
-     align-items: flex-start;
-
-    
-
-   } 
-
-   }
-
-    @media (max-width: 500px)
-
-    {
-
-       .navbar-left a,
-
-     .navbar-left i{
-
-      color: blue;
-
- }
-
- .navbar-right a,
-
-     .navbar-right i{
-
-      color: blue;
-
-     }
-
-   .navbar-right button {
-
-      background-color: blue;
-
-      color: white;
-
-     }
-
+   padding: 10px;
    
-
-
-
-   .navbar-left, 
-
-   .navbar-right {
-
-     flex-direction: column;
-
-     width: 100%;
-
-     display: none;
-
-     gap: 10px;
-
-     margin-top: 10px;
-
-   }
-
-
-
-   .navbar-left.show,
-
-   .navbar-right.show {
-
-     display: flex;
-
-   }
-
-
-
-   .hamburger {
-
-     display: block;
-
-     align-self: flex-start;
-
-    
-
-   }
-
- } /* Mobile view */
- @media (max-width: 500px) {
-   .navbar {
-     flex-direction: column;
-     align-items: flex-start;
-    
-   } 
-   }
-    @media (max-width: 500px)
-    {
-       .navbar-left a,
-     .navbar-left i{
-      color: blue;
-      margin: left 0px; ;
- }
- .navbar-right a,
-     .navbar-right i{
-      color: blue;
-      margin-left: 0px;
-     }
-   .navbar-right button {
-      background-color: blue;
-      color: white;
-     }
    
-
-   .navbar-left, 
-   .navbar-right {
-     flex-direction: column;
-     width: 100%;
-     display: none;
-     gap: 10px;
-     margin-top: 10px;
-     margin-left: 0px;
-   }
-
-   .navbar-left.show,
-   .navbar-right.show {
-     display: flex;
-   }
-
-   .hamburger {
-     display: block;
-     align-self: flex-start;
-    
-   }
+   transition: background-color 0.3s ease;
  }
 
-
-
-.upload-btn {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgb(99, 99, 241);
-    color: white;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 30px;
-    font-size: 16px;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    z-index: 999;
-    transition: background-color 0.3s ease;
-}
-
-.upload-btn:hover {
-    background-color:rgb(114, 60, 60) ;
-}
+ .upload-btn:hover {
+   background-color: rgb(114, 60, 60);
+ }
 
 
 
@@ -271,6 +152,7 @@
  a {
    text-decoration: none;
    color: black;
+
  }
 
  .books {
@@ -310,19 +192,24 @@
    border-radius: 5px;
 
  }
-
-
- .helps {
-
-   margin-top: 100px;
-   background-color: rgb(254, 251, 251);
+  .book button {
+  background-color: rgb(241, 238, 238);
+  
+ }
+  .book button a {
+  
+  color:black;
  }
 
- .help {
-   background-color: white;
-   border-radius: 30px solid blue;
- }
 
+ .book button:hover {
+  background-color: rgb(114, 60, 60);
+  color: white;
+ }
+  .book button a:hover {
+  
+  color: white;
+ }
 
  footer {
    background-color: rgb(114, 60, 60);

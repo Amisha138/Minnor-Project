@@ -1,6 +1,5 @@
 
     
- function toggleMenu() {
-  document.getElementById("navLeft").classList.toggle("show");
-  document.getElementById("navRight").classList.toggle("show");
+function toggleMenu() {
+  document.getElementById("menu").classList.toggle("show");
 }
