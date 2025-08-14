@@ -5,27 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us - Our Website</title>
     <link rel="stylesheet" href="../CSS/about us.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+    integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-     <div class="navbar">
-        <div class="logo"> BUKU MITRA</div>
-        <div class="navbar-left">
-      <li><a href="">Home</a></li>
-     <li> <a href="../FRONTEND/HTML/help.html">Help</a></li>
-      <li><a href=""> My Books</a></li>
-     <li><a href="../FRONTEND/HTML/">About Us</a></li>
-     <li><a href="../FRONTEND/HTML/">Contact Us</a></li>
-      
-      </div> 
-     <div>
-        <div class="navbar-right">
-      <button><a href="../FRONTEND/HTML/login.html">Login</a></button>
-      
-      
-      </div> 
-     </div> 
-
+    <div class="navbar">
+    <div class="nav-left">
+        <label class="checkbtn" id="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </label>
+        <label class="logo">BUKU MITRA</label>
     </div>
+
+    <ul id="menu-list">
+        <li><a href="../FRONTEND/HTML/index.html">Home</a></li>
+        <li><a href="..HTML/help.html">Help</a></li>
+        <li><a href="">My Books</a></li>
+        <li><a href="..HTML/about us.html">About Us</a></li>
+        <li><a href="">Contact Us</a></li>
+    </ul>
+
+    <div class="navbar-right">
+        <a href=""><i class="fa-solid fa-magnifying-glass"></i></a>
+        <a href="../FRONTEND/HTML/home.html"><i class="fa-solid fa-circle-user"></i></a>
+    </div>
+</div>
+
 
 <h1>About Us</h1>
     <p>Welcome to <strong>Online Book Exchange</strong>, a community-driven platform where book lovers can connect, share, and discover new reading treasures. 
@@ -126,6 +132,11 @@
             &copy; 2025 BookExchange | All rights reserved.
         </div>
     </footer>
+     <script>
+document.getElementById("menu-toggle").addEventListener("click", function() {
+    document.getElementById("menu-list").classList.toggle("show");
+});
+</script>
 
 </body>
 </html>
