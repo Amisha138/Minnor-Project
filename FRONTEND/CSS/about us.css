@@ -22,11 +22,11 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: rgb(114, 60, 60);
+  background-color:rgb(118, 75, 75);
   padding: 0 20px;
   color: white;
   position: relative;
-  height: 40px;
+  height: 70px;
 }
 
 .logo {
@@ -111,9 +111,7 @@ body {
     top: 5px;
   }
 }
-h1,h2,h3{
-    text-align: center;
-}
+
 
 .mission {
     background-color: #d7ede6;
@@ -148,9 +146,10 @@ h1,h2,h3{
     object-fit: cover;
 }
 h1,h2,h3{
-    text-align: center;
-    margin-top: 20px;
+   text-align: center;
+    margin: 20px;
 }
+    
 
 h2,
 h3 {
@@ -163,7 +162,7 @@ p {
 }
 
 footer {
-    background-color: rgb(114, 60, 60);
+    background-color: rgb(118, 75, 75);
     color: #fff;
     padding: 40px 20px;
 }
