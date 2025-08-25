@@ -75,9 +75,9 @@
 @media (max-width: 768px) {
   .navbar ul {
     position: absolute;
-    top: 40px;
+    top: 70px;
     left: 0;
-    width: 100%;
+    width: max-content;
     background-color: rgb(114, 60, 60);
     flex-direction: column;
     display: none;
@@ -97,6 +97,11 @@
     right: 20px;
     top: 5px;
   }
+  .navbar-right a{
+    align-items: center;
+    padding-top:20px ;
+  }
+
 }
 
 
