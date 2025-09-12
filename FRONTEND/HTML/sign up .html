@@ -53,6 +53,30 @@
         document.getElementById("menu-toggle").addEventListener("click", function () {
             document.getElementById("menu-list").classList.toggle("show");
         });
+        // 👇 Apna backend URL yaha daalo (Render ka)
+    const backendURL = "https://your-backend.onrender.com";
+
+    document.getElementById("signupForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const mobile = document.getElementById("mobile").value;
+      const password = document.getElementById("password").value;
+      const address = document.getElementById("address").value;
+
+      try {
+        let response = await fetch(`${backendURL}/api/signup`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, mobile, password, address })
+        });
+
+        let data = await response.json();
+        document.getElementById("result").innerText = "✅ " + data.message;
+      } catch (err) {
+        document.getElementById("result").innerText = "❌ Error: " + err;
+      }
+    });
     </script>
 
 </body>
