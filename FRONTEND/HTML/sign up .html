@@ -41,13 +41,14 @@
     <div class="container">
         <form class="signup-box">
             <h2>Sign Up</h2>
-            <input type="text" placeholder="Name:" required />
-            <input type="text" placeholder="Mobile no." required />
-            <input type="password" placeholder="Password:" required />
-            <textarea placeholder="Write Your Address Here..." rows="5" required></textarea>
+            <input type="text" id="name" placeholder="Name:" required />
+            <input type="text" id="mobile" placeholder="Mobile no." required />
+            <input type="password" id="password" placeholder="Password:" required />
+            <textarea id="address" placeholder="Write Your Address Here..." rows="5" required></textarea>
             <button type="submit">Sign Up</button>
             <p class="login-link">I have an account <a href="login.html">Log In</a></p>
         </form>
+        <p id="result"></p> 
     </div>
     <script>
         document.getElementById("menu-toggle").addEventListener("click", function () {
