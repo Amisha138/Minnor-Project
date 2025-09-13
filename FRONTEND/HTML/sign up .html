@@ -66,18 +66,24 @@
       const address = document.getElementById("address").value;
 
       try {
-        let response = await fetch("https://bookweb-backend-vu2o.onrender.com/signup", {
+        let response = await fetch(backendURL + "/signup", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name, mobileno: mobile, password, address })
         });
+          
+         let data = await response.json();
+        if (!response.ok) { // ✅ Agar backend error return kare
+      document.getElementById("result").innerText = "❌ " + data.message;
+      return;
+    }
 
-        let data = await response.json();
-        document.getElementById("result").innerText = "✅ " + data.message;
-      } catch (err) {
-        document.getElementById("result").innerText = "❌ Error: " + err;
-      }
-    });
+    document.getElementById("result").innerText = "✅ " + data.message;
+      
+    }catch (err) {
+    document.getElementById("result").innerText = "❌ Network/Error: " + err.message;
+    }   
+});
     </script>
 
 </body>
