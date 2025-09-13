@@ -72,13 +72,23 @@
           body: JSON.stringify({ name, mobileno: mobile, password, address })
         });
           
-         let data = await response.json();
+         // ✅ Safe JSON parsing: agar response invalid ho to crash na kare
+                let data = {};
+                try {
+                    data = await response.json();
+                } catch (err) {
+                    data = {};
+                }
+
+                // ✅ Robust message handling: fallback agar data.message undefined ho
+                const message = data.message || (response.ok ? "Signup successful" : "Something went wrong");
+
         if (!response.ok) { // ✅ Agar backend error return kare
-      document.getElementById("result").innerText = "❌ " + data.message;
+      document.getElementById("result").innerText = "❌ " + message;
       return;
     }
 
-    document.getElementById("result").innerText = "✅ " + data.message;
+    document.getElementById("result").innerText = "✅ " + message;
       
     }catch (err) {
     document.getElementById("result").innerText = "❌ Network/Error: " + err.message;
