@@ -69,7 +69,7 @@
         let response = await fetch("https://bookweb-backend-vu2o.onrender.com/signup", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, mobile, password, address })
+          body: JSON.stringify({ name, mobile, password, address })
         });
 
         let data = await response.json();
