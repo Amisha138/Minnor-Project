@@ -54,6 +54,47 @@
         document.getElementById("menu-toggle").addEventListener("click", function () {
             document.getElementById("menu-list").classList.toggle("show");
         });
+         // 👇 Apna backend URL (Render ka)
+    const backendURL = "https://bookweb-backend-vu2o.onrender.com";
+
+    document.getElementById("loginForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const mobile = document.getElementById("mobile").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        const response = await fetch(backendURL + "/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ mobileno: mobile, password })
+        });
+
+        let data = {};
+        try {
+          data = await response.json();
+        } catch (err) {
+          data = {};
+        }
+
+        const message = data.message || (response.ok ? "✅ Login successful" : "❌ Invalid login");
+
+        if (!response.ok) {
+          document.getElementById("result").innerText = "❌ " + message;
+          return;
+        }
+
+        document.getElementById("result").innerText = "✅ " + message;
+
+        // ✅ Login success hone ke baad home page par redirect
+        setTimeout(() => {
+          window.location.href = "home.html";
+        }, 1500);
+
+      } catch (err) {
+        document.getElementById("result").innerText = "❌ Network/Error: " + err.message;
+      }
+    });
     </script>
 
 </body>
