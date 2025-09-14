@@ -89,6 +89,11 @@
            if (data.name) {
       localStorage.setItem("userName", data.name);
     }
+          if (data.name) {
+  // pura user object save karo
+  localStorage.setItem("user", JSON.stringify(data));
+}
+
 
         document.getElementById("result").innerText = "✅ " + message;
 
