@@ -220,6 +220,13 @@
     document.getElementById("profileIcon").innerHTML = `<div class="profile-circle">${firstLetter}</div>`;
   }
 });
+        // 🔹 Click karne par detail show hoga
+    profileIcon.addEventListener("click", (e) => {
+      e.preventDefault();
+      alert(
+        `👤 User Details:\n\nName: ${user.name}\nMobile: ${user.mobileno}\nEmail: ${user.email || "Not Provided"}`
+      );
+    });
 
     </script>
 
