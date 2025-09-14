@@ -86,8 +86,8 @@
           document.getElementById("result").innerText = "❌ " + message;
           return;
         }
-           if (data.user && data.user.name) {
-      localStorage.setItem("userName", data.user.name);
+           if (data.name) {
+      localStorage.setItem("userName", data.name);
     }
 
         document.getElementById("result").innerText = "✅ " + message;
