@@ -31,7 +31,7 @@
 
         <div class="navbar-right">
             <a href=""><i class="fa-solid fa-magnifying-glass"></i></a>
-            <a href="./HTML/home.html"><i class="fa-solid fa-circle-user"></i></a>
+            <a href="./HTML/home.html" id="profileIcon"><i class="fa-solid fa-circle-user"></i></a>
         </div>
     </div>
 
@@ -213,6 +213,14 @@
         document.getElementById("menu-toggle").addEventListener("click", function () {
             document.getElementById("menu-list").classList.toggle("show");
         });
+        window.addEventListener("DOMContentLoaded", () => {
+  const name = localStorage.getItem("userName");
+  if (name) {
+    const firstLetter = name.charAt(0).toUpperCase();
+    document.getElementById("profileIcon").innerHTML = `<div class="profile-circle">${firstLetter}</div>`;
+  }
+});
+
     </script>
 
 
