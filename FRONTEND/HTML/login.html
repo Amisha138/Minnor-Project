@@ -78,6 +78,7 @@
         } catch (err) {
           data = {};
         }
+          console.log("🔹 Backend response:", data);
 
         const message = data.message || (response.ok ? "✅ Login successful" : "❌ Invalid login");
 
@@ -85,6 +86,9 @@
           document.getElementById("result").innerText = "❌ " + message;
           return;
         }
+           if (data.user && data.user.name) {
+      localStorage.setItem("userName", data.user.name);
+    }
 
         document.getElementById("result").innerText = "✅ " + message;
 
