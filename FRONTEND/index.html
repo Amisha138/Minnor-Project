@@ -220,10 +220,12 @@
   const user = JSON.parse(userData);
     const firstLetter = user.name.charAt(0).toUpperCase();
     document.getElementById("profileIcon").innerHTML = `<div class="profile-circle" id="profileLetter">${firstLetter}</div>`;
-  // 🔹 Click karne par detail show hoga
-   document.getElementById("profileLetter").addEventListener("click", () => {
-      alert(`User Details:\n\nName: ${user.name}\nMobile: ${user.mobileno || "N/A"}\nToken: ${user.token}`);
-    });
+     // Event listener abhi add karo
+        const profileLetter = document.getElementById("profileLetter");
+        if (profileLetter) {
+            profileLetter.addEventListener("click", () => {
+                alert(`User Details:\n\nName: ${user.name}\nMobile: ${user.mobileno || "N/A"}\nToken: ${user.token}`);
+            });
   }
 });
        
