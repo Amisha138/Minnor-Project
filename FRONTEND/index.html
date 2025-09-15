@@ -31,7 +31,7 @@
 
         <div class="navbar-right">
             <a href=""><i class="fa-solid fa-magnifying-glass"></i></a>
-            <a href="./HTML/home.html" id="profileIcon"><i class="fa-solid fa-circle-user"></i></a>
+            <div id="profileIcon"><i class="fa-solid fa-circle-user"></i></div>
         </div>
     </div>
 
@@ -215,6 +215,7 @@
         });
         window.addEventListener("DOMContentLoaded", () => {
   const userData = localStorage.getItem("user");
+  const profileIcon = document.getElementById("profileIcon");
   if (userData) {
     
   const user = JSON.parse(userData);
@@ -223,10 +224,17 @@
      // Event listener abhi add karo
         const profileLetter = document.getElementById("profileLetter");
         if (profileLetter) {
-            profileLetter.addEventListener("click", (e) => {
-                 e.preventDefault(); 
+            profileLetter.addEventListener("click", () => {
+                
                 alert(`User Details:\n\nName: ${user.name}\nMobile: ${user.mobileno || "N/A"}\nToken: ${user.token}`);
             });
+  }
+  }
+      else {
+    // 🔹 User login nahi hai → click par login page open
+    profileIcon.addEventListener("click", () => {
+      window.location.href = "./HTML/home.html";
+    });
   }
 });
        
