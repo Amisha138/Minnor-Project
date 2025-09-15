@@ -237,6 +237,41 @@
     });
   }
 });
+      async function loadBooks() {
+    try {
+      // Backend se books laao
+      const response = await fetch("http://localhost:5000/books");
+      const books = await response.json();
+
+      // Jaha books dikhani hai (aapke index.html me .features .books div hai)
+      const booksContainer = document.querySelector(".features .books");
+      booksContainer.innerHTML = ""; // purane static books hata do
+
+      // Har book ko add karo
+      books.forEach(book => {
+        const bookDiv = document.createElement("div");
+        bookDiv.classList.add("book");
+        bookDiv.innerHTML = `
+          <div>
+            <img src="./IMAGES/physics.jpg" alt="book" />
+            <h3>${book.bookname}</h3>
+            <p>Author: ${book.bookauthor}</p>
+            <p>Price: ₹${book.bookprice || "Free"}</p>
+            <button><a href="./HTML/Exchange .html">Exchange</a></button>
+          </div>
+        `;
+        booksContainer.appendChild(bookDiv);
+      });
+    } catch (error) {
+      console.error("Error loading books:", error);
+    }
+  }
+
+  // Page load hote hi books fetch karo
+  window.addEventListener("DOMContentLoaded", loadBooks);
+  }
+});
+
        
 
     </script>
