@@ -39,20 +39,66 @@
 
 
     <div class="container">
-        <form class="signup-box">
+        <form id="signupForm" class="signup-box">
             <h2>Sign Up</h2>
-            <input type="text" placeholder="Name:" required />
-            <input type="text" placeholder="Mobile no." required />
-            <input type="password" placeholder="Password:" required />
-            <textarea placeholder="Write Your Address Here..." rows="5" required></textarea>
+            <input type="text" id="name" placeholder="Name:" required />
+            <input type="text" id="mobile" placeholder="Mobile no." required />
+            <input type="password" id="password" placeholder="Password:" required />
+            <textarea id="address" placeholder="Write Your Address Here..." rows="5" required></textarea>
             <button type="submit">Sign Up</button>
             <p class="login-link">I have an account <a href="login.html">Log In</a></p>
         </form>
+        <p id="result"></p> 
     </div>
     <script>
         document.getElementById("menu-toggle").addEventListener("click", function () {
             document.getElementById("menu-list").classList.toggle("show");
         });
+        // 👇 Apna backend URL yaha daalo (Render ka)
+    const backendURL = "https://bookweb-backend-vu2o.onrender.com";
+
+    document.getElementById("signupForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const mobile = document.getElementById("mobile").value;
+      const password = document.getElementById("password").value;
+      const address = document.getElementById("address").value;
+
+      try {
+        let response = await fetch(backendURL + "/signup", {
+         // const response = await fetch("http://localhost:5000/signup", {
+
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, mobileno: mobile, password, address })
+        });
+          const data = await response.json();
+
+        const message = data.message || (response.ok ? "✅ Signup successful" : "❌ Something went wrong");
+    
+         // ✅ Safe JSON parsing: agar response invalid ho to crash na kare
+          //      let data = {};
+            //    try {
+              //      data = await response.json();
+                //} catch (err) {
+                 //   data = {};
+                //}
+
+                // ✅ Robust message handling: fallback agar data.message undefined ho
+              //  const message = data.message || (response.ok ? "Signup successful" : "Something went wrong");
+
+        if (!response.ok) { // ✅ Agar backend error return kare
+      document.getElementById("result").innerText = "❌ " + message;
+      return;
+    }
+
+    document.getElementById("result").innerText = "✅ " + message;
+      
+    }catch (err) {
+    document.getElementById("result").innerText = "❌ Network/Error: " + err.message;
+    }   
+});
     </script>
 
 </body>
