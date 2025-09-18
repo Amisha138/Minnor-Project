@@ -16,31 +16,31 @@
                 <table>
                     <tr>
                         <td><strong> Book Name:</strong></td>
-                        <td> Engineering Mechanics</td>
+                        <td id="bookname"> </td>
                     </tr>
                     <tr>
                         <td><strong> Book Author:</strong></td>
-                        <td> Mr.Unknown Person</td>
+                        <td id="bookauthor"></td>
                     </tr>
                     <tr>
                         <td><strong> Book Publication:</strong></td>
-                        <td> Edu Teria Publication</td>
+                        <td id="bookpublication"></td>
                     </tr>
                     <tr>
                         <td><strong> Book Language:</strong></td>
-                        <td> Hindi</td>
+                        <td id="booklanguage"></td>
                     </tr>
                     <tr>
                         <td><strong> Book Volume:</strong></td>
-                        <td>9th</td>
+                        <td id="bookvolume"></td>
                     </tr>
                     <tr>
                         <td><strong>Book Price:</strong></td>
-                        <td>Rs.90/.</td>
+                        <td id="bookprice"></td>
                     </tr>
                     <tr>
                         <td><strong> Book details:</strong></td>
-                        <td>9th</td>
+                        <td id="bookdetail"></td>
                     </tr>
 
                 </table>
@@ -56,15 +56,36 @@
                    
             <div class="img"><img src=../IMAGES/aa.jpg alt="image"></div>
             <div class="user-inform">
-                <strong> Name: </strong>Mr Ram<br><br>
-                <strong> Mobile: </strong>8940498555<br><br>
-                <strong> Email: </strong>abc@gmail.com<br><br>
-                <strong> Address: </strong>msnjhdjsncnmcnjd<br><br>
+                <strong> Name: </strong><span id="name"></span><br><br>
+                <strong> Mobile: </strong><span id="mobile"></span><br><br>
+                <strong> Email: </strong><span id="email"></span><br><br>
+                <strong> Address: </strong><span id="address"></span><br><br>
 <a href="./comment.html"><button>Send Message</button></a>
             </div>
             
         </div>
         </div>
+   //js
+    <script>
+window.addEventListener("DOMContentLoaded", () => {
+    const data = JSON.parse(localStorage.getItem("uploadedBook"));
+    if (!data) return;
+
+    document.getElementById("bookname").innerText = data.name;
+    document.getElementById("bookauthor").innerText = data.author;
+    document.getElementById("bookpublication").innerText = data.publication;
+    document.getElementById("booklanguage").innerText = data.language;
+    document.getElementById("bookvolume").innerText = data.volume;
+    document.getElementById("bookprice").innerText = "Rs. " + data.price;
+    document.getElementById("bookdetails").innerText = data.details;
+
+    document.getElementById("name").innerText = data.user.name;
+    document.getElementById("mobile").innerText = data.user.mobile;
+    document.getElementById("email").innerText = data.user.email;
+    document.getElementById("address").innerText = data.user.address;
+});
+</script>
+
         
         
 </body>
