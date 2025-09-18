@@ -31,9 +31,10 @@
     </div>
 
     </div>
-     <button>Submit</button>
+     <button onclick="savebook()">Submit</button>
     
   <script>// upload book page me (upload book form submit hone par)
+      function savebook(){
 const bookData = {
     name: document.getElementById("bookname").value,
     author: document.getElementById("bookauthor").value,
@@ -41,9 +42,9 @@ const bookData = {
     language: document.getElementById("booklanguage").value,
     volume: document.getElementById("bookvolume").value,
     price: document.getElementById("bookprice").value,
-    details: document.getElementById("bookdetails").value,
+
     user: {
-      name: document.getElementById("nameame").value,
+      name: document.getElementById("name").value,
       mobile: document.getElementById("mobile").value,
       email: document.getElementById("email").value,
       address: document.getElementById("address").value
@@ -52,6 +53,7 @@ const bookData = {
 
 localStorage.setItem("uploadedBook", JSON.stringify(bookData));
 window.location.href = "./Exchange.html"; // redirect exchange page
+      }
 </script>
 
 
