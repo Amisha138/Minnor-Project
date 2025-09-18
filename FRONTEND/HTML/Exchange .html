@@ -38,10 +38,10 @@
                         <td><strong>Book Price:</strong></td>
                         <td id="bookprice"></td>
                     </tr>
-                    <tr>
+                 <!--   <tr>
                         <td><strong> Book details:</strong></td>
                         <td id="bookdetail"></td>
-                    </tr>
+                    </tr>  -->
 
                 </table>
 
@@ -77,7 +77,7 @@ window.addEventListener("DOMContentLoaded", () => {
     document.getElementById("booklanguage").innerText = data.language;
     document.getElementById("bookvolume").innerText = data.volume;
     document.getElementById("bookprice").innerText = "Rs. " + data.price;
-    document.getElementById("bookdetails").innerText = data.details;
+   // document.getElementById("bookdetails").innerText = data.details;
 
     document.getElementById("name").innerText = data.user.name;
     document.getElementById("mobile").innerText = data.user.mobile;
