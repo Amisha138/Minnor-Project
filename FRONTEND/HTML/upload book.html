@@ -13,24 +13,49 @@
     </div>
     <div class="data">
        <h1>Fill These Details</h1>
-            <input type="text" placeholder=" Book Name:" required /><br><br>
-            <input type="text" placeholder="Book Author:"required /><br><br>
-            <input type="text" placeholder="Book Publication:" required /><br><br>
-            <input type="text" placeholder=" Book Language:" required /><br><br>
-            <input type="number" placeholder="Book Volume:"required /><br><br>
-            <input type="text" placeholder="Book Price:" required /><br><br>
+            <input type="text" placeholder=" Book Name:" id="bookname" required /><br><br>
+            <input type="text" placeholder="Book Author:" id="bookauthor" required /><br><br>
+            <input type="text" placeholder="Book Publication:" id="bookpublication" required /><br><br>
+            <input type="text" placeholder=" Book Language:" id="booklanguage" required /><br><br>
+            <input type="number" placeholder="Book Volume:" id="bookvolume" required /><br><br>
+            <input type="text" placeholder="Book Price:" id="bookprice" required /><br><br>
 
 
     </div> 
     <div class="user-detail">
 <h1>Uploaded By</h1>
-<input type="text" placeholder=" Your Name:" required /><br><br>
-            <input type="text" placeholder="Mobile no." required /><br><br>
-            <input type="text" placeholder="Email:" required /><br><br>
-           <textarea placeholder="Write Your Address Here..." rows="5" required></textarea>
+<input type="text" placeholder=" Your Name:" id="name" required /><br><br>
+            <input type="text" placeholder="Mobile no." id="mobile" required /><br><br>
+            <input type="text" placeholder="Email:" id="email" required /><br><br>
+           <textarea placeholder="Write Your Address Here..." rows="5" id="address" required></textarea>
     </div>
 
     </div>
-     <button>Submit</button>
+     <button type="button" onclick="savebook()">Submit</button>
+    
+  <script>// upload book page me (upload book form submit hone par)
+      function savebook(){
+const bookData = {
+    name: document.getElementById("bookname").value,
+    author: document.getElementById("bookauthor").value,
+    publication: document.getElementById("bookpublication").value,
+    language: document.getElementById("booklanguage").value,
+    volume: document.getElementById("bookvolume").value,
+    price: document.getElementById("bookprice").value,
+
+    user: {
+      name: document.getElementById("name").value,
+      mobile: document.getElementById("mobile").value,
+      email: document.getElementById("email").value,
+      address: document.getElementById("address").value
+    }
+};
+
+localStorage.setItem("uploadedBook", JSON.stringify(bookData));
+window.location.href = "Exchange.html"; // redirect exchange page
+      }
+</script>
+
+
 </body>
 </html>
