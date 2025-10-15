@@ -30,7 +30,7 @@
         </ul>
 
         <div class="navbar-right">
-            <a href=""><i class="fa-solid fa-magnifying-glass"></i></a>
+            <a href="javascript:void(0)"><i class="fa-solid fa-magnifying-glass"></i></a>
             <div id="profileIcon"><i class="fa-solid fa-circle-user"></i></div>
         </div>
     </div>
@@ -278,6 +278,65 @@ loadBooks();
 
 
 
+
+<script>
+
+   
+  // YouTube-style search box
+const searchIcon = document.querySelector(".navbar-right a i.fa-magnifying-glass");
+const navbarRight = document.querySelector(".navbar-right");
+
+// Input box create dynamically
+const searchInput = document.createElement("input");
+searchInput.type = "text";
+searchInput.placeholder = "Search books...";
+searchInput.style.cssText = `
+  width: 0;
+  padding: 5px 10px;
+  border: 1px rgb(114, 60, 60);
+  border-radius: 20px;
+  outline: none;
+  transition: width 0.3s ease, padding 0.3s ease;
+  margin-left: 10px;
+  display: inline-block;
+   background: transparent;   `;
+navbarRight.appendChild(searchInput);
+
+// Click on search icon
+searchIcon.addEventListener("click", (e) => {
+  e.stopPropagation(); // prevent collapse immediately
+  if (searchInput.style.width === "0px" || searchInput.style.width === "") {
+    searchInput.style.width = "200px";
+    searchInput.style.padding = "5px 10px";
+    searchInput.focus();
+    searchInput.style.background="white";
+    searchInput.style.border=" 1px solid black";
+    
+  } else {
+    searchInput.style.width = "0";
+    searchInput.style.padding = "0";
+    
+
+  }
+});
+
+// Collapse search box when clicking outside
+document.addEventListener("click", (e) => {
+  if (e.target !== searchIcon && e.target !== searchInput) {
+    searchInput.style.width = "0";
+    searchInput.style.padding = "0";
+  }
+});
+
+// Optional: Enter press event
+searchInput.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    alert("Searching for: " + searchInput.value);
+    // Yahan aap search API call ya page redirect kar sakte ho
+  }
+});
+
+</script>
 </body>
 
 </html>
