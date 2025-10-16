@@ -64,7 +64,7 @@ const bookData = {
           const data = await response.json();
 
         const message = data.message || (response.ok ? "✅ upload successful" : "❌ Something went wrong");
-    
+    alert(message); // Show success or error message
 window.location.href = "Exchange.html"; // redirect exchange page
       }
       catch (error) {
