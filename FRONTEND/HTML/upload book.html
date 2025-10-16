@@ -34,7 +34,7 @@
      <button type="button" onclick="savebook()">Submit</button>
     
   <script>// upload book page me (upload book form submit hone par)
-      function savebook(){
+      async function savebook(){
 const bookData = {
     name: document.getElementById("bookname").value,
     author: document.getElementById("bookauthor").value,
@@ -59,7 +59,7 @@ const bookData = {
 
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({bookname,bookauthor,bookpublication,booklanguage,bookvolume,bookprice, name, mobileno: mobile, email, address })
+          body: JSON.stringify(bookData )
         });
           const data = await response.json();
 
