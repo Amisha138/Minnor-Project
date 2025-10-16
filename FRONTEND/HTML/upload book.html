@@ -51,7 +51,19 @@ const bookData = {
     }
 };
 
-localStorage.setItem("uploadedBook", JSON.stringify(bookData));
+//localStorage.setItem("uploadedBook", JSON.stringify(bookData));
+ try {
+        let response = await fetch(backendURL + "/uploadbook", {
+         // const response = await fetch("http://localhost:5000/signup", {
+
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ bookname,bookauthor,bookpublication,booklanguage,bookvolume,bookprice, name, mobileno: mobile, email, address })
+        });
+          const data = await response.json();
+
+        const message = data.message || (response.ok ? "✅ upload successful" : "❌ Something went wrong");
+    
 window.location.href = "Exchange.html"; // redirect exchange page
       }
 </script>
