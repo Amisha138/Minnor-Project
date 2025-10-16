@@ -67,6 +67,11 @@ const bookData = {
     
 window.location.href = "Exchange.html"; // redirect exchange page
       }
+      catch (error) {
+  console.error("❌ Upload failed:", error);  // ✅ NEW
+  alert("❌ Error uploading book. Check your internet or try again later.");  // ✅ NEW
+}
+      }
 </script>
 
 
