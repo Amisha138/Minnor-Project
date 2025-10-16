@@ -58,7 +58,7 @@ const bookData = {
 
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ bookname,bookauthor,bookpublication,booklanguage,bookvolume,bookprice, name, mobileno: mobile, email, address })
+          body: JSON.stringify({bookname,bookauthor,bookpublication,booklanguage,bookvolume,bookprice, name, mobileno: mobile, email, address })
         });
           const data = await response.json();
 
