@@ -54,7 +54,7 @@ const bookData = {
 
 //localStorage.setItem("uploadedBook", JSON.stringify(bookData));
  try {
-        let response = await fetch(backendURL + "/upload-book", {
+        const response = await fetch(backendURL + "/upload-book", {
          // const response = await fetch("http://localhost:5000/signup", {
 
           method: "POST",
