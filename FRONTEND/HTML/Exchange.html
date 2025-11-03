@@ -69,7 +69,7 @@
     <script>
         const backendURL = "https://bookweb-backend-vu2o.onrender.com";
 window.addEventListener("DOMContentLoaded", async() => {
-    const response = await fetch(backendURL + "books");
+    const response = await fetch(backendURL + "/books");
     const books = await response.json();
 
     if (!books.length) {
