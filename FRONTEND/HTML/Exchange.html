@@ -77,12 +77,12 @@ window.addEventListener("DOMContentLoaded", async() => {
       return;
     }
 const data = books[books.length - 1]; // ya books[0], backend sorting pe depend karta hai
-    document.getElementById("bookname").innerText = data.name;
-    document.getElementById("bookauthor").innerText = data.author;
-    document.getElementById("bookpublication").innerText = data.publication;
-    document.getElementById("booklanguage").innerText = data.language;
-    document.getElementById("bookvolume").innerText = data.volume;
-    document.getElementById("bookprice").innerText = "Rs. " + data.price;
+    document.getElementById("bookname").innerText = data.bookname;
+    document.getElementById("bookauthor").innerText = data.bookauthor;
+    document.getElementById("bookpublication").innerText = data.bookpublication;
+    document.getElementById("booklanguage").innerText = data.booklanguage;
+    document.getElementById("bookvolume").innerText = data.bookvolume;
+    document.getElementById("bookprice").innerText = "Rs. " + data.bookprice;
    // document.getElementById("bookdetails").innerText = data.details;
 
     document.getElementById("name").innerText = data.user.name;
