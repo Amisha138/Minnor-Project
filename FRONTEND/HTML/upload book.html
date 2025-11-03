@@ -36,18 +36,18 @@
   <script>// upload book page me (upload book form submit hone par)
       async function savebook(){
 const bookData = {
-    name: document.getElementById("bookname").value,
-    author: document.getElementById("bookauthor").value,
-    publication: document.getElementById("bookpublication").value,
-    language: document.getElementById("booklanguage").value,
-    volume: document.getElementById("bookvolume").value,
-    price: document.getElementById("bookprice").value,
+    bookname: document.getElementById("bookname").value,
+    bookauthor: document.getElementById("bookauthor").value,
+    bookpublication: document.getElementById("bookpublication").value,
+    booklanguage: document.getElementById("booklanguage").value,
+    bookvolume: document.getElementById("bookvolume").value,
+    bookprice: document.getElementById("bookprice").value,
 
-    user: {
-      name: document.getElementById("name").value,
-      mobile: document.getElementById("mobile").value,
-      email: document.getElementById("email").value,
-      address: document.getElementById("address").value
+    //user: {
+      //name: document.getElementById("name").value,
+      //mobile: document.getElementById("mobile").value,
+      //email: document.getElementById("email").value,
+      //address: document.getElementById("address").value
     }
 };
           const backendURL = "https://bookweb-backend-vu2o.onrender.com";
