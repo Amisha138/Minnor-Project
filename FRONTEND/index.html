@@ -237,38 +237,57 @@
     });
   }
 
-      async function loadBooks() {
-    try {
-      // Backend se books laao
-      const response = await fetch("https://bookweb-backend-vu2o.onrender.com");
-      const books = await response.json();
+     try {
+            console.log("Fetching books from DB...");
+            
+            // ✅ STEP 1: DB se data maango
+            const response = await fetch(backendURL + "/books");
+            const books = await response.json();
 
-      // Jaha books dikhani hai (aapke index.html me .features .books div hai)
-      const booksContainer = document.querySelector(".features .books");
-      booksContainer.innerHTML = ""; // purane static books hata do
+            console.log("Books received:", books); // Console check karo
 
-      // Har book ko add karo
-      books.forEach(book => {
-        const bookDiv = document.createElement("div");
-        bookDiv.classList.add("book");
-        bookDiv.innerHTML = `
-          <div>
-            <img src="./IMAGES/physics.jpg" alt="book" />
-            <h3>${book.bookname}</h3>
-            <p>Author: ${book.bookauthor}</p>
-            <p>Price: ₹${book.bookprice || "Free"}</p>
-            <button><a href="./HTML/Exchange .html">Exchange</a></button>
-          </div>
-        `;
-        booksContainer.appendChild(bookDiv);
-      });
-    } catch (error) {
-      console.error("Error loading books:", error);
-    }
-  }
+            // HTML wala div jaha books dikhani hai
+            const booksContainer = document.querySelector(".features .books");
 
-  // Page load hote hi books fetch karo
-loadBooks();
+            // ✅ STEP 2: Purana 'Static' data saaf karo
+            booksContainer.innerHTML = ""; 
+
+            // Agar DB khali hai
+            if (!books || books.length === 0) {
+                booksContainer.innerHTML = "<h3>No books uploaded yet.</h3>";
+                return;
+            }
+
+            // ✅ STEP 3: Har book ke liye HTML Box banao
+            // Backend ne nayi book sabse upar bheji hai (Index 0)
+            books.forEach(book => {
+                const bookDiv = document.createElement("div");
+                bookDiv.classList.add("book");
+
+                // Book ka HTML structure
+                bookDiv.innerHTML = `
+                    <div>
+                        <img src="./IMAGES/physics.jpg" alt="book" style="width:100%; height:200px; object-fit:cover;" />
+                        
+                        <h3>${book.bookname}</h3>
+                        <p>Author: ${book.bookauthor}</p>
+                        <p>Price: ₹${book.bookprice}</p>
+                        
+                        <a href="./HTML/Exchange.html?id=${book._id}">
+                            <button style="cursor:pointer;">Exchange</button>
+                        </a>
+                    </div>
+                `;
+
+                // Main container me jod do
+                booksContainer.appendChild(bookDiv);
+            });
+
+        } catch (error) {
+            console.error("Error loading books:", error);
+            document.querySelector(".features .books").innerHTML = "<h3>Server is offline. Start 'node index.js'</h3>";
+        }
+    });
   
 });
 
