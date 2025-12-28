@@ -213,7 +213,7 @@
         document.getElementById("menu-toggle").addEventListener("click", function () {
             document.getElementById("menu-list").classList.toggle("show");
         });
-        window.addEventListener("DOMContentLoaded", () => {
+      window.addEventListener("DOMContentLoaded", async () => {
   const userData = localStorage.getItem("user");
   const profileIcon = document.getElementById("profileIcon");
   if (userData) {
@@ -288,8 +288,6 @@ const backendURL = "https://bookweb-backend-vu2o.onrender.com";
             document.querySelector(".features .books").innerHTML = "<h3>Server is offline. Start 'node index.js'</h3>";
         }
     });
-  
-});
 
        
 
