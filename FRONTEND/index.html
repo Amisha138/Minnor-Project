@@ -240,7 +240,7 @@
       async function loadBooks() {
     try {
       // Backend se books laao
-      const response = await fetch("http://localhost:5000/books");
+      const response = await fetch("https://bookweb-backend-vu2o.onrender.com");
       const books = await response.json();
 
       // Jaha books dikhani hai (aapke index.html me .features .books div hai)
