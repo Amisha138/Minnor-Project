@@ -68,13 +68,31 @@
    
     <script>
         const backendURL = "https://bookweb-backend-vu2o.onrender.com";
-window.addEventListener("DOMContentLoaded", async() => {
-    const response = await fetch(backendURL + "/books");
-    const books = await response.json();
+window.addEventListener("DOMContentLoaded", async () => {
+        try {
+            // 1. URL se Book ID nikalo (Jo Index page ne bheji thi)
+            const params = new URLSearchParams(window.location.search);
+            const bookId = params.get('id');
 
-    if (!books||books.length === 0) {
-      document.body.innerHTML = "<h2>No books uploaded yet!</h2>";
-      return;
+            // Agar ID nahi mili to user ko batao
+            if (!bookId) {
+                document.body.innerHTML = "<h2 style='text-align:center; margin-top:50px;'>❌ Error: No book selected. Go back to Home Page.</h2>";
+                return;
+            }
+
+            // 2. Database se data maango
+            const response = await fetch(backendURL + "/books");
+            const books = await response.json();
+
+            // 3. ✅ MAIN CHANGE: Sirf wahi book dhoondo jiski ID match kare
+            // Purana code: const data = books[0]; (Ye galat tha)
+            const data = books.find(book => book._id === bookId);
+
+            // Agar database me wo book nahi mili
+            if (!data) {
+                document.body.innerHTML = "<h2 style='text-align:center;'>❌ Book not found!</h2>";
+                return;
+            }
     }
 const data = books[0] // backend sorting pe depend karta hai
     document.getElementById("bookname").innerText = data.bookname;
