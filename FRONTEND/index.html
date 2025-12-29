@@ -212,149 +212,146 @@
         </div>
     </footer>
 
-    <script>
-        document.getElementById("menu-toggle").addEventListener("click", function () {
-            document.getElementById("menu-list").classList.toggle("show");
-        });
-      window.addEventListener("DOMContentLoaded", async () => {
-  const userData = localStorage.getItem("user");
-  const profileIcon = document.getElementById("profileIcon");
-  if (userData) {
-    
-  const user = JSON.parse(userData);
-    const firstLetter = user.name.charAt(0).toUpperCase();
-    document.getElementById("profileIcon").innerHTML = `<div class="profile-circle" id="profileLetter">${firstLetter}</div>`;
-     // Event listener abhi add karo
-        const profileLetter = document.getElementById("profileLetter");
-        if (profileLetter) {
-            profileLetter.addEventListener("click", () => {
-                
-                alert(`User Details:\n\nName: ${user.name}\nMobile: ${user.mobileno || "mobileno"}`);
-            });
-  }
-  }
-      else {
-    // 🔹 User login nahi hai → click par login page open
-    profileIcon.addEventListener("click", () => {
-      window.location.href = "./HTML/home.html";
+   <script>
+    // 1. Navbar Toggle
+    document.getElementById("menu-toggle").addEventListener("click", function () {
+        document.getElementById("menu-list").classList.toggle("show");
     });
-  }
-const backendURL = "https://bookweb-backend-vu2o.onrender.com";
-     try {
-            console.log("Fetching books from DB...");
-            
-            // ✅ STEP 1: DB se data maango
-            const response = await fetch(backendURL + "/books");
-            const books = await response.json();
 
-            console.log("Books received:", books); // Console check karo
+    // 🌟 GLOBAL VARIABLE: Isme hum saari books save karenge
+    let allBooks = [];
 
-            // HTML wala div jaha books dikhani hai
-            const booksContainer = document.querySelector(".features .books");
-
-            // ✅ STEP 2: Purana 'Static' data saaf karo
-            booksContainer.innerHTML = ""; 
-
-            // Agar DB khali hai
-            if (!books || books.length === 0) {
-                booksContainer.innerHTML = "<h3>No books uploaded yet.</h3>";
-                return;
-            }
-
-            // ✅ STEP 3: Har book ke liye HTML Box banao
-            // Backend ne nayi book sabse upar bheji hai (Index 0)
-            books.forEach(book => {
-                const bookDiv = document.createElement("div");
-                bookDiv.classList.add("book");
-
-                // Book ka HTML structure
-                bookDiv.innerHTML = `
-                    <div>
-                        <img src="./IMAGES/physics.jpg" alt="book" style="width:100%; height:200px; object-fit:cover;" />
-                        
-                        <h3>${book.bookname}</h3>
-                        <p>Author: ${book.bookauthor}</p>
-                        <p>Price: ₹${book.bookprice}</p>
-                        
-                        <a href="./HTML/Exchange.html?id=${book._id}">
-                            <button style="cursor:pointer;">Exchange</button>
-                        </a>
-                    </div>
-                `;
-
-                // Main container me jod do
-                booksContainer.appendChild(bookDiv);
+    // 2. Page Load hone par
+    window.addEventListener("DOMContentLoaded", async () => {
+        
+        // --- User Profile Logic ---
+        const userData = localStorage.getItem("user");
+        const profileIcon = document.getElementById("profileIcon");
+        if (userData) {
+            const user = JSON.parse(userData);
+            const firstLetter = user.name.charAt(0).toUpperCase();
+            profileIcon.innerHTML = `<div class="profile-circle" id="profileLetter" style="width:35px; height:35px; background:#ff5722; color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:bold; cursor:pointer;">${firstLetter}</div>`;
+            document.getElementById("profileLetter").addEventListener("click", () => {
+                alert(`User: ${user.name}\nMobile: ${user.mobileno || user.mobile}`);
             });
+        } else {
+            profileIcon.addEventListener("click", () => window.location.href = "./HTML/home.html");
+        }
+
+        // --- FETCH BOOKS ---
+        const backendURL = "https://bookweb-backend-vu2o.onrender.com";
+        const booksContainer = document.querySelector(".features .books");
+
+        try {
+            // Loading text
+            booksContainer.innerHTML = "<h3 style='text-align:center; color:blue;'>⏳ Loading books...</h3>";
+
+            const response = await fetch(backendURL + "/books");
+            if (!response.ok) throw new Error("Server Error");
+
+            // ✅ STEP A: Data ko global variable me save kar lo
+            allBooks = await response.json(); 
+
+            // ✅ STEP B: Pehli baar saari books dikhao
+            renderBooks(allBooks); 
 
         } catch (error) {
-            console.error("Error loading books:", error);
-            document.querySelector(".features .books").innerHTML = "<h3>Server is offline. Start 'node index.js'</h3>";
+            console.error("Error:", error);
+            booksContainer.innerHTML = "<h3 style='color:red; text-align:center;'>❌ Server Error (Try refreshing)</h3>";
         }
     });
 
-       
+    // 🌟 FUNCTION: Books ko screen par dikhane ke liye
+    // Ye function hum search karte waqt bhi use karenge
+    function renderBooks(booksList) {
+        const booksContainer = document.querySelector(".features .books");
+        booksContainer.innerHTML = ""; // Purana data saaf karo
 
-    </script>
+        // Agar search karne par koi book na mile
+        if (booksList.length === 0) {
+            booksContainer.innerHTML = "<h3 style='text-align:center;'>No books found matching your search.</h3>";
+            return;
+        }
 
+        booksList.forEach(book => {
+            const bookDiv = document.createElement("div");
+            bookDiv.classList.add("book");
 
+            // Image Logic (Naam ke hisaab se photo)
+            let imagePath = "./IMAGES/physics.jpg"; // Default
+            let name = (book.bookname || "").toLowerCase();
+            
+            if (name.includes("math")) imagePath = "./IMAGES/maths.jpg";
+            else if (name.includes("chem")) imagePath = "./IMAGES/Chemistry.jpg";
+            else if (name.includes("java")) imagePath = "./IMAGES/java.jpg";
+            else if (name.includes("python")) imagePath = "./IMAGES/python.jpg";
+            else if (name.includes("html")) imagePath = "./IMAGES/html.jpg";
+            else if (name.includes("bio")) imagePath = "./IMAGES/bio.jpg";
+            else if (name.includes("c++")) imagePath = "./IMAGES/c++.jpg";
 
+            bookDiv.innerHTML = `
+                <div>
+                    <img src="${imagePath}" alt="book" style="width:100%; height:200px; object-fit:cover;" />
+                    <h3>${book.bookname}</h3>
+                    <p>Author: ${book.bookauthor}</p>
+                    <p>Price: ₹${book.bookprice}</p>
+                    <a href="./HTML/Exchange.html?id=${book._id}">
+                        <button style="cursor:pointer;">Exchange</button>
+                    </a>
+                </div>
+            `;
+            booksContainer.appendChild(bookDiv);
+        });
+    }
 
-<script>
+    // --- 3. SEARCH BOX LOGIC ---
+    const searchIcon = document.querySelector(".navbar-right a i.fa-magnifying-glass");
+    const navbarRight = document.querySelector(".navbar-right");
 
-   
-  // YouTube-style search box
-const searchIcon = document.querySelector(".navbar-right a i.fa-magnifying-glass");
-const navbarRight = document.querySelector(".navbar-right");
+    const searchInput = document.createElement("input");
+    searchInput.type = "text";
+    searchInput.placeholder = "Search books...";
+    searchInput.style.cssText = `width: 0; padding: 5px 10px; border: 1px rgb(114, 60, 60); border-radius: 20px; outline: none; transition: width 0.3s ease, padding 0.3s ease; margin-left: 10px; display: inline-block; background: transparent;`;
+    navbarRight.appendChild(searchInput);
 
-// Input box create dynamically
-const searchInput = document.createElement("input");
-searchInput.type = "text";
-searchInput.placeholder = "Search books...";
-searchInput.style.cssText = `
-  width: 0;
-  padding: 5px 10px;
-  border: 1px rgb(114, 60, 60);
-  border-radius: 20px;
-  outline: none;
-  transition: width 0.3s ease, padding 0.3s ease;
-  margin-left: 10px;
-  display: inline-block;
-   background: transparent;   `;
-navbarRight.appendChild(searchInput);
+    // Click par search box khulega
+    searchIcon.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (searchInput.style.width === "0px" || searchInput.style.width === "") {
+            searchInput.style.width = "200px";
+            searchInput.style.padding = "5px 10px";
+            searchInput.focus();
+            searchInput.style.background = "white";
+            searchInput.style.border = "1px solid black";
+        } else {
+            searchInput.style.width = "0";
+            searchInput.style.padding = "0";
+        }
+    });
 
-// Click on search icon
-searchIcon.addEventListener("click", (e) => {
-  e.stopPropagation(); // prevent collapse immediately
-  if (searchInput.style.width === "0px" || searchInput.style.width === "") {
-    searchInput.style.width = "200px";
-    searchInput.style.padding = "5px 10px";
-    searchInput.focus();
-    searchInput.style.background="white";
-    searchInput.style.border=" 1px solid black";
-    
-  } else {
-    searchInput.style.width = "0";
-    searchInput.style.padding = "0";
-    
+    // 🌟 MAIN SEARCH LOGIC: Type karte hi filter karega
+    searchInput.addEventListener("input", (e) => {
+        const searchText = e.target.value.toLowerCase(); // User ne jo type kiya (small letters me)
 
-  }
-});
+        // Filter: Sirf wo books rakho jinka naam ya author match kare
+        const filteredBooks = allBooks.filter(book => {
+            const bookName = (book.bookname || "").toLowerCase();
+            const authorName = (book.bookauthor || "").toLowerCase();
+            
+            return bookName.includes(searchText) || authorName.includes(searchText);
+        });
 
-// Collapse search box when clicking outside
-document.addEventListener("click", (e) => {
-  if (e.target !== searchIcon && e.target !== searchInput) {
-    searchInput.style.width = "0";
-    searchInput.style.padding = "0";
-  }
-});
+        // Ab sirf filtered books dikhao
+        renderBooks(filteredBooks);
+    });
 
-// Optional: Enter press event
-searchInput.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") {
-    alert("Searching for: " + searchInput.value);
-    // Yahan aap search API call ya page redirect kar sakte ho
-  }
-});
+    // Bahar click karne par search box band
+    document.addEventListener("click", (e) => {
+        if (e.target !== searchIcon && e.target !== searchInput) {
+            searchInput.style.width = "0";
+            searchInput.style.padding = "0";
+        }
+    });
 
 </script>
 </body>
