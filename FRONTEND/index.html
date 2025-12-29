@@ -224,20 +224,49 @@
     // 2. Page Load hone par
     window.addEventListener("DOMContentLoaded", async () => {
         
-        // --- User Profile Logic ---
+      function logoutUser() {
+        if (confirm("Are you sure you want to logout?")) {
+            localStorage.removeItem("user"); // Browser se data hatao
+            alert("✅ Logged out successfully!");
+            window.location.reload(); // Page refresh karo taaki button gayab ho jaye
+        }
+    }
+
+    // 2. Page Load Logic
+    window.addEventListener("DOMContentLoaded", async () => {
+        
+        // --- User Profile & Logout Logic ---
         const userData = localStorage.getItem("user");
         const profileIcon = document.getElementById("profileIcon");
+        const logoutBtn = document.getElementById("logoutLi"); // Logout button select kiya
+
         if (userData) {
+            // Agar User Login hai:
             const user = JSON.parse(userData);
+            
+            // 1. Profile Icon Badlo
             const firstLetter = user.name.charAt(0).toUpperCase();
             profileIcon.innerHTML = `<div class="profile-circle" id="profileLetter" style="width:35px; height:35px; background:#ff5722; color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:bold; cursor:pointer;">${firstLetter}</div>`;
+            
+            // 2. Profile click par details dikhao
             document.getElementById("profileLetter").addEventListener("click", () => {
-                alert(`User: ${user.name}\nMobile: ${user.mobileno || user.mobile}`);
+                alert(`User: ${user.name}\nMobile: ${user.mobileno || user.mobile}\nEmail: ${user.email}`);
             });
-        } else {
-            profileIcon.addEventListener("click", () => window.location.href = "./HTML/home.html");
-        }
 
+            // 3. ✅ Logout Button Dikhao (Display Block)
+            if (logoutBtn) {
+                logoutBtn.style.display = "block";
+            }
+
+        } else {
+            // Agar User Login Nahi hai:
+            profileIcon.addEventListener("click", () => window.location.href = "./HTML/home.html");
+            
+            // Logout button chupaye rakho
+            if (logoutBtn) {
+                logoutBtn.style.display = "none";
+            }
+        }
         // --- FETCH BOOKS ---
         const backendURL = "https://bookweb-backend-vu2o.onrender.com";
         const booksContainer = document.querySelector(".features .books");
