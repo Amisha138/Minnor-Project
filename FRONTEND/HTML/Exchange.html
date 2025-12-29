@@ -93,7 +93,7 @@ window.addEventListener("DOMContentLoaded", async () => {
                 document.body.innerHTML = "<h2 style='text-align:center;'>❌ Book not found!</h2>";
                 return;
             }
-    }
+    
 const data = books[0] // backend sorting pe depend karta hai
     document.getElementById("bookname").innerText = data.bookname;
     document.getElementById("bookauthor").innerText = data.bookauthor;
@@ -107,6 +107,7 @@ const data = books[0] // backend sorting pe depend karta hai
     document.getElementById("mobile").innerText = data.user.mobile;
     document.getElementById("email").innerText = data.user.email;
     document.getElementById("address").innerText = data.user.address;
+}
 });
 </script>
 
