@@ -108,6 +108,10 @@ window.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("email").innerText = data.user.email;
     document.getElementById("address").innerText = data.user.address;
 }
+    catch (error) {
+            console.error("Error:", error);
+            document.body.innerHTML = "<h2 style='text-align:center;'>❌ Error loading data.</h2>";
+        }
 });
 </script>
 
