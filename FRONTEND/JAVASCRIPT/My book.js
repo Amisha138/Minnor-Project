@@ -33,3 +33,9 @@ buttons.forEach(btn => {
 function closePopup() {
   document.getElementById("popup").style.display = "none";
 }
+
+
+
+document.getElementById("menu-toggle").onclick = () => {
+    document.getElementById("menu-list").classList.toggle("show");
+};
