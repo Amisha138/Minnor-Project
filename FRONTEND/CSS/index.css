@@ -50,16 +50,109 @@
 
 .navbar-right {
   display: flex;
-  gap: 10px;
+  gap: 15px;
+  align-items: center;
 }
 
 .navbar-right a {
-  font-size: 20px;
+  font-size: 22px;
   color: white;
+  transition: color 0.3s;
 }
 
 .navbar-right a:hover {
-  color: blue;
+  color: #febd69; /* Amazon-style orange hover */
+}
+
+/* Amazon-style Search Bar Container */
+.search-container {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  max-width: 600px;
+  margin: 0 20px;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.search-category {
+  background-color: #f3f3f3;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  border-right: 1px solid #ddd;
+  outline: none;
+  color: #555;
+}
+
+.search-input {
+  flex-grow: 1;
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  outline: none;
+}
+
+.search-btn {
+  background-color: #febd69; /* Amazon Orange */
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 18px;
+  color: #333;
+  transition: background 0.3s;
+}
+
+.search-btn:hover {
+  background-color: #f3a847;
+}
+
+/* Suggestions Dropdown */
+#search-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  z-index: 1000;
+  display: none;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.suggestion-item {
+  padding: 10px 15px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f9f9f9;
+}
+
+.suggestion-item:hover {
+  background-color: #f3f3f3;
+}
+
+.suggestion-item .type {
+  font-size: 12px;
+  color: #888;
+  font-style: italic;
+}
+
+.recent-search-header {
+  padding: 5px 15px;
+  background: #f9f9f9;
+  font-weight: bold;
+  font-size: 12px;
+  color: #666;
+  border-bottom: 1px solid #eee;
 }
 
 .checkbtn {
@@ -91,21 +184,29 @@
   }
 
   .navbar-right {
-    position: absolute;
-    right: 20px;
-    top: 5px;
-  }
-  .navbar-right a{
-    align-items: center;
-    padding-top:20px ;
+    position: static;
+    margin-left: auto;
   }
 
-
-  #profileIcon{
-    padding-top: 20px;
-    
+  .search-container {
+    max-width: none;
+    margin: 10px 0;
+    width: 100%;
+    order: 3; /* Move to bottom row in mobile if needed */
   }
-  
+
+  /* Compact categories on mobile */
+  .search-category {
+    padding: 10px 8px;
+    font-size: 12px;
+    width: 80px;
+  }
+
+  .navbar {
+    height: auto;
+    flex-wrap: wrap;
+    padding: 10px 20px;
+  }
 }
 
 

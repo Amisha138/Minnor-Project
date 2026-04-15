@@ -32,8 +32,21 @@
     </li>
         </ul>
 
+        <div class="search-container">
+            <select class="search-category" id="searchCategory">
+                <option value="all">All</option>
+                <option value="class 9">Class 9</option>
+                <option value="class 10">Class 10</option>
+                <option value="class 11">Class 11</option>
+                <option value="class 12">Class 12</option>
+                <option value="diploma">Diploma</option>
+            </select>
+            <input type="text" class="search-input" id="searchInput" placeholder="Search for books, authors...">
+            <button class="search-btn" id="searchBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <div id="search-suggestions"></div>
+        </div>
+
         <div class="navbar-right">
-            <a href="javascript:void(0)"><i class="fa-solid fa-magnifying-glass"></i></a>
             <div id="profileIcon"><i class="fa-solid fa-circle-user"></i></div>
         </div>
     </div>
@@ -42,21 +55,20 @@
     <h1 style="padding-top: 10px;">Select your class</h1>
     <div class="container">
 
-        <a href="">
+        <a href="javascript:void(0)" onclick="setCategory('class 9')">
             <div class="box">class 9</div>
         </a>
-        <a href="#">
+        <a href="javascript:void(0)" onclick="setCategory('class 10')">
             <div class="box">Class 10</div>
         </a>
-        <a href="#">
+        <a href="javascript:void(0)" onclick="setCategory('class 11')">
             <div class="box">Class 11</div>
         </a>
-        <a href="#">
+        <a href="javascript:void(0)" onclick="setCategory('class 12')">
             <div class="box">Class 12</div>
         </a>
-        <a href="#">
+        <a href="javascript:void(0)" onclick="setCategory('diploma')">
             <div class="box">Diploma CSE</div>
-
         </a>
 
     </div><br>
@@ -331,52 +343,126 @@
         });
     }
 
-    // --- 3. SEARCH BOX LOGIC ---
-    const searchIcon = document.querySelector(".navbar-right a i.fa-magnifying-glass");
-    const navbarRight = document.querySelector(".navbar-right");
+    // --- 3. SMART SEARCH LOGIC (Amazon Style) ---
+    const searchInput = document.getElementById("searchInput");
+    const searchCategory = document.getElementById("searchCategory");
+    const searchBtn = document.getElementById("searchBtn");
+    const suggestionsBox = document.getElementById("search-suggestions");
 
-    const searchInput = document.createElement("input");
-    searchInput.type = "text";
-    searchInput.placeholder = "Search books...";
-    searchInput.style.cssText = `width: 0; padding: 5px 10px; border: 1px rgb(114, 60, 60); border-radius: 20px; outline: none; transition: width 0.3s ease, padding 0.3s ease; margin-left: 10px; display: inline-block; background: transparent;`;
-    navbarRight.appendChild(searchInput);
+    // Function to set category from homepage boxes
+    window.setCategory = function(cat) {
+        searchCategory.value = cat.toLowerCase();
+        searchInput.value = ""; // Clear search when picking category box
+        performSearch();
+    };
 
-    // Click par search box khulega
-    searchIcon.addEventListener("click", (e) => {
-        e.stopPropagation();
-        if (searchInput.style.width === "0px" || searchInput.style.width === "") {
-            searchInput.style.width = "200px";
-            searchInput.style.padding = "5px 10px";
-            searchInput.focus();
-            searchInput.style.background = "white";
-            searchInput.style.border = "1px solid black";
-        } else {
-            searchInput.style.width = "0";
-            searchInput.style.padding = "0";
+    // Main search function
+    function performSearch() {
+        const searchText = searchInput.value.toLowerCase();
+        const selectedCat = searchCategory.value.toLowerCase();
+
+        // Save to recent searches if not empty
+        if (searchText.trim() !== "") {
+            saveRecentSearch(searchText);
         }
-    });
 
-    // 🌟 MAIN SEARCH LOGIC: Type karte hi filter karega
-    searchInput.addEventListener("input", (e) => {
-        const searchText = e.target.value.toLowerCase(); // User ne jo type kiya (small letters me)
-
-        // Filter: Sirf wo books rakho jinka naam ya author match kare
         const filteredBooks = allBooks.filter(book => {
-            const bookName = (book.bookname || "").toLowerCase();
-            const authorName = (book.bookauthor || "").toLowerCase();
+            const name = (book.bookname || "").toLowerCase();
+            const author = (book.bookauthor || "").toLowerCase();
+            const bookClass = (book.bookclass || "").toLowerCase();
             
-            return bookName.includes(searchText) || authorName.includes(searchText);
+            const matchesText = name.includes(searchText) || author.includes(searchText);
+            const matchesCategory = selectedCat === "all" || bookClass.includes(selectedCat);
+            
+            return matchesText && matchesCategory;
         });
 
-        // Ab sirf filtered books dikhao
         renderBooks(filteredBooks);
+        suggestionsBox.style.display = "none";
+    }
+
+    // Recent Searches Logic
+    function saveRecentSearch(text) {
+        let recents = JSON.parse(localStorage.getItem("recentSearches") || "[]");
+        recents = [text, ...recents.filter(s => s !== text)].slice(0, 5);
+        localStorage.setItem("recentSearches", JSON.stringify(recents));
+    }
+
+    function showSuggestions() {
+        const text = searchInput.value.toLowerCase();
+        const recents = JSON.parse(localStorage.getItem("recentSearches") || "[]");
+        
+        suggestionsBox.innerHTML = "";
+        
+        // Show Recents if input is empty
+        if (text === "") {
+            if (recents.length > 0) {
+                const header = document.createElement("div");
+                header.classList.add("recent-search-header");
+                header.innerText = "Recent Searches";
+                suggestionsBox.appendChild(header);
+                
+                recents.forEach(s => {
+                    const item = createSuggestionItem(s, "history");
+                    suggestionsBox.appendChild(item);
+                });
+                suggestionsBox.style.display = "block";
+            } else {
+                suggestionsBox.style.display = "none";
+            }
+            return;
+        }
+
+        // Filter suggestions from allBooks
+        const matches = allBooks.filter(book => 
+            (book.bookname || "").toLowerCase().includes(text) || 
+            (book.bookauthor || "").toLowerCase().includes(text)
+        ).slice(0, 8);
+
+        if (matches.length > 0) {
+            matches.forEach(book => {
+                const item = createSuggestionItem(book.bookname, "book");
+                item.addEventListener("click", () => {
+                    searchInput.value = book.bookname;
+                    performSearch();
+                });
+                suggestionsBox.appendChild(item);
+            });
+            suggestionsBox.style.display = "block";
+        } else {
+            suggestionsBox.style.display = "none";
+        }
+    }
+
+    function createSuggestionItem(text, typeIcon) {
+        const div = document.createElement("div");
+        div.classList.add("suggestion-item");
+        div.innerHTML = `
+            <span>${text}</span>
+            <span class="type">${typeIcon === "history" ? "<i class='fa-solid fa-clock-rotate-left'></i>" : "<i class='fa-solid fa-book'></i>"}</span>
+        `;
+        div.addEventListener("click", () => {
+            searchInput.value = text;
+            performSearch();
+        });
+        return div;
+    }
+
+    // Listeners
+    searchInput.addEventListener("input", showSuggestions);
+    searchInput.addEventListener("focus", showSuggestions);
+    
+    searchInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") performSearch();
     });
 
-    // Bahar click karne par search box band
+    searchBtn.addEventListener("click", performSearch);
+    searchCategory.addEventListener("change", performSearch);
+
+    // Hide suggestions on outside click
     document.addEventListener("click", (e) => {
-        if (e.target !== searchIcon && e.target !== searchInput) {
-            searchInput.style.width = "0";
-            searchInput.style.padding = "0";
+        if (!e.target.closest(".search-container")) {
+            suggestionsBox.style.display = "none";
         }
     });
 
