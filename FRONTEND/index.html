@@ -10,6 +10,8 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="./CSS/index.css" />
+    <link rel="stylesheet" href="./CSS/navbar.css" />
+    <!-- navbar.js will be loaded at the bottom -->
 </head>
 
 <body>
@@ -27,9 +29,6 @@
             <li><a href="./HTML/My book.html">My Books</a></li>
             <li><a href="./HTML/about us.html">About Us</a></li>
             <li><a href="./HTML/contact us.html">Contact Us</a></li>
-            <li id="logoutLi" style="display: none;">
-        <a href="javascript:void(0)" onclick="logoutUser()" style="color: red; font-weight: bold;">Logout</a>
-    </li>
         </ul>
 
         <div class="search-container">
@@ -41,13 +40,26 @@
                 <option value="class 12">Class 12</option>
                 <option value="diploma">Diploma</option>
             </select>
-            <input type="text" class="search-input" id="searchInput" placeholder="Search for books, authors...">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search books...">
             <button class="search-btn" id="searchBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
             <div id="search-suggestions"></div>
         </div>
 
         <div class="navbar-right">
-            <div id="profileIcon"><i class="fa-solid fa-circle-user"></i></div>
+            <div class="profile-container" id="profileArea">
+                <i class="fa-solid fa-circle-user"></i>
+            </div>
+            <!-- Profile Popup -->
+            <div class="profile-popup" id="profilePopup">
+                <div class="popup-header">
+                    <h4 id="popupName">Guest User</h4>
+                    <p id="popupEmail"></p>
+                </div>
+                <div class="popup-links">
+                    <a href="javascript:void(0)" onclick="editProfile()"><i class="fa-solid fa-user-pen"></i> Edit Profile</a>
+                    <a href="javascript:void(0)" class="exit-btn" onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Exit</a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -227,56 +239,13 @@
         </div>
     </footer>
 
-   <script>
-    // 1. Navbar Toggle
-    document.getElementById("menu-toggle").addEventListener("click", function () {
-        document.getElementById("menu-list").classList.toggle("show");
-    });
-
+    <script src="./JAVASCRIPT/navbar.js"></script>
+    <script>
     // 🌟 GLOBAL VARIABLE: Isme hum saari books save karenge
     let allBooks = [];
 
-     
-    // ✅ LOGOUT FUNCTION (Isse bahar rakhna zaroori hai taaki HTML isse dhoond sake)
-    function logoutUser() {
-        if (confirm("Are you sure you want to logout?")) {
-            localStorage.removeItem("user"); // Data hatao
-            alert("✅ Logged out successfully!");
-            window.location.reload(); // Refresh karo
-        }
-    }
-
-    // 2. Page Load hone par
+    // 1. Page Load hone par
     window.addEventListener("DOMContentLoaded", async () => {
-        
-        // --- User Profile & Logout Logic ---
-        const userData = localStorage.getItem("user");
-        const profileIcon = document.getElementById("profileIcon");
-        const logoutBtn = document.getElementById("logoutLi"); 
-
-        if (userData) {
-            // Agar User Login hai:
-            const user = JSON.parse(userData);
-            
-            // 1. Profile Icon update
-            const firstLetter = user.name.charAt(0).toUpperCase();
-            profileIcon.innerHTML = `<div class="profile-circle" id="profileLetter" style="width:35px; height:35px; background:#ff5722; color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:bold; cursor:pointer;">${firstLetter}</div>`;
-            
-            // 2. Profile click alert
-            document.getElementById("profileLetter").addEventListener("click", () => {
-                alert(`User: ${user.name}\nMobile: ${user.mobileno || user.mobile}\nEmail: ${user.email}`);
-            });
-
-            // 3. Logout Button dikhao
-            if (logoutBtn) logoutBtn.style.display = "block";
-
-        } else {
-            // Agar User Login NAHI hai:
-            profileIcon.addEventListener("click", () => window.location.href = "./HTML/home.html");
-            
-            // Logout button chupao
-            if (logoutBtn) logoutBtn.style.display = "none";
-        }
         // --- FETCH BOOKS ---
         const backendURL = "https://bookweb-backend-vu2o.onrender.com";
         const booksContainer = document.querySelector(".features .books");
@@ -290,6 +259,7 @@
 
             // ✅ STEP A: Data ko global variable me save kar lo
             allBooks = await response.json(); 
+            window.allBooks = allBooks; // Make it globally available for navbar.js
 
             // ✅ STEP B: Pehli baar saari books dikhao
             renderBooks(allBooks); 
@@ -342,130 +312,6 @@
             booksContainer.appendChild(bookDiv);
         });
     }
-
-    // --- 3. SMART SEARCH LOGIC (Amazon Style) ---
-    const searchInput = document.getElementById("searchInput");
-    const searchCategory = document.getElementById("searchCategory");
-    const searchBtn = document.getElementById("searchBtn");
-    const suggestionsBox = document.getElementById("search-suggestions");
-
-    // Function to set category from homepage boxes
-    window.setCategory = function(cat) {
-        searchCategory.value = cat.toLowerCase();
-        searchInput.value = ""; // Clear search when picking category box
-        performSearch();
-    };
-
-    // Main search function
-    function performSearch() {
-        const searchText = searchInput.value.toLowerCase();
-        const selectedCat = searchCategory.value.toLowerCase();
-
-        // Save to recent searches if not empty
-        if (searchText.trim() !== "") {
-            saveRecentSearch(searchText);
-        }
-
-        const filteredBooks = allBooks.filter(book => {
-            const name = (book.bookname || "").toLowerCase();
-            const author = (book.bookauthor || "").toLowerCase();
-            const bookClass = (book.bookclass || "").toLowerCase();
-            
-            const matchesText = name.includes(searchText) || author.includes(searchText);
-            const matchesCategory = selectedCat === "all" || bookClass.includes(selectedCat);
-            
-            return matchesText && matchesCategory;
-        });
-
-        renderBooks(filteredBooks);
-        suggestionsBox.style.display = "none";
-    }
-
-    // Recent Searches Logic
-    function saveRecentSearch(text) {
-        let recents = JSON.parse(localStorage.getItem("recentSearches") || "[]");
-        recents = [text, ...recents.filter(s => s !== text)].slice(0, 5);
-        localStorage.setItem("recentSearches", JSON.stringify(recents));
-    }
-
-    function showSuggestions() {
-        const text = searchInput.value.toLowerCase();
-        const recents = JSON.parse(localStorage.getItem("recentSearches") || "[]");
-        
-        suggestionsBox.innerHTML = "";
-        
-        // Show Recents if input is empty
-        if (text === "") {
-            if (recents.length > 0) {
-                const header = document.createElement("div");
-                header.classList.add("recent-search-header");
-                header.innerText = "Recent Searches";
-                suggestionsBox.appendChild(header);
-                
-                recents.forEach(s => {
-                    const item = createSuggestionItem(s, "history");
-                    suggestionsBox.appendChild(item);
-                });
-                suggestionsBox.style.display = "block";
-            } else {
-                suggestionsBox.style.display = "none";
-            }
-            return;
-        }
-
-        // Filter suggestions from allBooks
-        const matches = allBooks.filter(book => 
-            (book.bookname || "").toLowerCase().includes(text) || 
-            (book.bookauthor || "").toLowerCase().includes(text)
-        ).slice(0, 8);
-
-        if (matches.length > 0) {
-            matches.forEach(book => {
-                const item = createSuggestionItem(book.bookname, "book");
-                item.addEventListener("click", () => {
-                    searchInput.value = book.bookname;
-                    performSearch();
-                });
-                suggestionsBox.appendChild(item);
-            });
-            suggestionsBox.style.display = "block";
-        } else {
-            suggestionsBox.style.display = "none";
-        }
-    }
-
-    function createSuggestionItem(text, typeIcon) {
-        const div = document.createElement("div");
-        div.classList.add("suggestion-item");
-        div.innerHTML = `
-            <span>${text}</span>
-            <span class="type">${typeIcon === "history" ? "<i class='fa-solid fa-clock-rotate-left'></i>" : "<i class='fa-solid fa-book'></i>"}</span>
-        `;
-        div.addEventListener("click", () => {
-            searchInput.value = text;
-            performSearch();
-        });
-        return div;
-    }
-
-    // Listeners
-    searchInput.addEventListener("input", showSuggestions);
-    searchInput.addEventListener("focus", showSuggestions);
-    
-    searchInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") performSearch();
-    });
-
-    searchBtn.addEventListener("click", performSearch);
-    searchCategory.addEventListener("change", performSearch);
-
-    // Hide suggestions on outside click
-    document.addEventListener("click", (e) => {
-        if (!e.target.closest(".search-container")) {
-            suggestionsBox.style.display = "none";
-        }
-    });
-
 </script>
 </body>
 

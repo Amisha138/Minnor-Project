@@ -3,14 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
     <link rel="stylesheet" href="../CSS/upload book.css"/>
+    <link rel="stylesheet" href="../CSS/navbar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+        integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
+    <div class="navbar">
+        <div class="nav-left">
+            <label class="checkbtn" id="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </label>
+            <label class="logo">BOOK WEB</label>
+        </div>
+
+        <ul id="menu-list">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="./help.html">Help</a></li>
+            <li><a href="./My book.html">My Books</a></li>
+            <li><a href="./about us.html">About Us</a></li>
+            <li><a href="./contact us.html">Contact Us</a></li>
+        </ul>
+
+        <div class="search-container">
+            <select class="search-category" id="searchCategory">
+                <option value="all">All</option>
+                <option value="class 9">Class 9</option>
+                <option value="class 10">Class 10</option>
+                <option value="class 11">Class 11</option>
+                <option value="class 12">Class 12</option>
+                <option value="diploma">Diploma</option>
+            </select>
+            <input type="text" class="search-input" id="searchInput" placeholder="Search books...">
+            <button class="search-btn" id="searchBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <div id="search-suggestions"></div>
+        </div>
+
+        <div class="navbar-right">
+            <div class="profile-container" id="profileArea">
+                <i class="fa-solid fa-circle-user"></i>
+            </div>
+            <!-- Profile Popup -->
+            <div class="profile-popup" id="profilePopup">
+                <div class="popup-header">
+                    <h4 id="popupName">Guest User</h4>
+                    <p id="popupEmail"></p>
+                </div>
+                <div class="popup-links">
+                    <a href="javascript:void(0)" onclick="editProfile()"><i class="fa-solid fa-user-pen"></i> Edit Profile</a>
+                    <a href="javascript:void(0)" class="exit-btn" onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Exit</a>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container">
         <div class="img">
-   <img src="../IMAGES/aa.jpg" alt="aa" height="280px" width="300px"/>
-    </div>
+            <img src="../IMAGES/aa.jpg" id="imagePreview" alt="Preview" height="280px" width="300px"/>
+            <div style="margin-top: 10px;">
+                <label for="bookImage" style="cursor: pointer; background: #6363f1; color: white; padding: 5px 10px; border-radius: 5px;">Upload Book Image</label>
+                <input type="file" id="bookImage" accept="image/*" style="display: none;" onchange="previewImage(event)"/>
+            </div>
+        </div>
     <div class="data">
        <h1>Fill These Details</h1>
             <input type="text" placeholder=" Book Name:" id="bookname" required /><br><br>
@@ -33,48 +87,56 @@
     </div>
      <button type="button" onclick="savebook()">Submit</button>
     
-  <script>// upload book page me (upload book form submit hone par)
+  <script src="../JAVASCRIPT/navbar.js"></script>
+  <script>
+      let selectedImageBase64 = "";
+
+      function previewImage(event) {
+          const file = event.target.files[0];
+          const reader = new FileReader();
+          reader.onload = function() {
+              document.getElementById('imagePreview').src = reader.result;
+              selectedImageBase64 = reader.result;
+          };
+          reader.readAsDataURL(file);
+      }
+
       async function savebook(){
-const bookData = {
-    bookname: document.getElementById("bookname").value,
-    bookauthor: document.getElementById("bookauthor").value,
-    bookpublication: document.getElementById("bookpublication").value,
-    booklanguage: document.getElementById("booklanguage").value,
-    bookvolume: document.getElementById("bookvolume").value,
-    bookprice: document.getElementById("bookprice").value,
-
-    user: {
-      name: document.getElementById("name").value,
-      mobile: document.getElementById("mobile").value,
-      email: document.getElementById("email").value,
-      address: document.getElementById("address").value
-    }
-};
+          const bookData = {
+              bookname: document.getElementById("bookname").value,
+              bookauthor: document.getElementById("bookauthor").value,
+              bookpublication: document.getElementById("bookpublication").value,
+              booklanguage: document.getElementById("booklanguage").value,
+              bookvolume: document.getElementById("bookvolume").value,
+              bookprice: document.getElementById("bookprice").value,
+              bookimage: selectedImageBase64, // Add image data
+              user: {
+                name: document.getElementById("name").value,
+                mobile: document.getElementById("mobile").value,
+                email: document.getElementById("email").value,
+                address: document.getElementById("address").value
+              }
+          };
           const backendURL = "https://bookweb-backend-vu2o.onrender.com";
-          // const backendURL = "http://localhost:5000";
 
+          try {
+              const response = await fetch(backendURL + "/upload-book", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(bookData)
+              });
+              const data = await response.json();
 
-//localStorage.setItem("uploadedBook", JSON.stringify(bookData));
- try {
-        const response = await fetch(backendURL + "/upload-book", {
-         // const response = await fetch("http://localhost:5000/signup", {
-
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(bookData )
-        });
-          const data = await response.json();
-
-        const message = data.message || (response.ok ? "✅ upload successful" : "❌ Something went wrong");
-    alert(message); // Show success or error message
-window.location.href = "../index.html"; // redirect exchange page
+              const message = data.message || (response.ok ? "✅ upload successful" : "❌ Something went wrong");
+              alert(message);
+              if (response.ok) window.location.href = "../index.html";
+          }
+          catch (error) {
+              console.error("❌ Upload failed:", error);
+              alert("❌ Error uploading book. Check your internet or try again later.");
+          }
       }
-      catch (error) {
-  console.error("❌ Upload failed:", error);  // ✅ NEW
-  alert("❌ Error uploading book. Check your internet or try again later.");  // ✅ NEW
-}
-      }
-</script>
+  </script>
 
 
 </body>
