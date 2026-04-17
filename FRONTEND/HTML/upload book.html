@@ -136,8 +136,10 @@
               bookauthor: document.getElementById("bookauthor").value,
               bookpublication: document.getElementById("bookpublication").value,
               booklanguage: document.getElementById("booklanguage").value,
-              bookvolume: document.getElementById("bookvolume").value, // Must be String for this backend
-              bookprice: Number(document.getElementById("bookprice").value), // Must be Number for this backend
+              bookvolume: document.getElementById("bookvolume").value,
+              bookprice: Number(document.getElementById("bookprice").value),
+              bookclass: document.getElementById("bookclass").value,
+              image: selectedImageBase64,
               user: {
                 name: document.getElementById("name").value,
                 mobile: document.getElementById("mobile").value,
@@ -146,11 +148,19 @@
               }
           };
 
+          // Validation
+          if (!bookData.bookclass) {
+              alert("Please select a book class.");
+              return;
+          }
+
           const backendURL = "https://bookweb-backend-vu2o.onrender.com";
 
           try {
-              submitBtn.innerText = "Uploading...";
+              submitBtn.innerText = "Uploading (Please wait)...";
               submitBtn.disabled = true;
+
+              console.log("🚀 Attempting upload to:", backendURL + "/upload-book");
 
               const response = await fetch(backendURL + "/upload-book", {
                   method: "POST",
@@ -162,16 +172,24 @@
               try { data = await response.json(); } catch(e) {}
 
               if (response.ok) {
-                  alert("✅ Success!");
+                  alert("✅ Success! Your book has been uploaded.");
                   window.location.href = "../index.html";
               } else {
-                  console.error("Server Response:", response.status, data);
+                  console.error("❌ Server Error:", response.status, data);
                   alert(`❌ Server Error (${response.status}): ${data.message || "Unknown error"}`);
               }
           }
           catch (error) {
-              console.error("Network Error Details:", error);
-              alert(`❌ Connection Error!\nMessage: ${error.message}\n\nTip: Please check if ${backendURL} is accessible in your browser.`);
+              console.error("❌ Network/Connection Error Details:", error);
+              
+              // More descriptive error message for the user
+              let errorMessage = `❌ Connection Error!\n\nDetails: ${error.message}`;
+              
+              if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                  errorMessage += "\n\nPossible Causes:\n1. The backend server (Render) is asleep/offline.\n2. You are not connected to the internet.\n3. Browser CORS policy is blocking the request.";
+              }
+              
+              alert(errorMessage + `\n\nTip: Please verify if ${backendURL} is open in another tab.`);
           } finally {
               submitBtn.innerText = originalText;
               submitBtn.disabled = false;
