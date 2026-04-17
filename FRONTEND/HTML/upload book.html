@@ -138,8 +138,8 @@
               booklanguage: document.getElementById("booklanguage").value,
               bookvolume: document.getElementById("bookvolume").value,
               bookprice: document.getElementById("bookprice").value,
-              bookclass: document.getElementById("bookclass").value,
-              bookimage: selectedImageBase64,
+              // Compatible Mode: bookclass and bookimage are removed from payload 
+              // because the server doesn't support them yet.
               user: {
                 name: document.getElementById("name").value,
                 mobile: document.getElementById("mobile").value,
@@ -148,8 +148,8 @@
               }
           };
 
-          if (!bookData.bookclass) { alert("Please select a class!"); return; }
-          if (!selectedImageBase64) { alert("Please upload a book image!"); return; }
+          // Basic validation
+          if (!bookData.bookname) { alert("Please enter book name!"); return; }
 
           const backendURL = "https://bookweb-backend-vu2o.onrender.com";
 
