@@ -73,6 +73,14 @@
             <input type="text" placeholder=" Book Language:" id="booklanguage" required /><br><br>
             <input type="number" placeholder="Book Volume:" id="bookvolume" required /><br><br>
             <input type="text" placeholder="Book Price:" id="bookprice" required /><br><br>
+            <select id="bookclass" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: white;" required>
+                <option value="" disabled selected>Select Class</option>
+                <option value="class 9">Class 9</option>
+                <option value="class 10">Class 10</option>
+                <option value="class 11">Class 11</option>
+                <option value="class 12">Class 12</option>
+                <option value="diploma">Diploma</option>
+            </select><br><br>
 
 
     </div> 
@@ -85,7 +93,7 @@
     </div>
 
     </div>
-     <button type="button" onclick="savebook()">Submit</button>
+     <button type="button" id="submitBtn" onclick="savebook()">Submit</button>
     
   <script src="../JAVASCRIPT/navbar.js"></script>
   <script>
@@ -93,15 +101,36 @@
 
       function previewImage(event) {
           const file = event.target.files[0];
+          if (!file) return;
+
           const reader = new FileReader();
-          reader.onload = function() {
-              document.getElementById('imagePreview').src = reader.result;
-              selectedImageBase64 = reader.result;
+          reader.onload = function(e) {
+              const img = new Image();
+              img.onload = function() {
+                  // Compression Logic
+                  const canvas = document.createElement('canvas');
+                  const MAX_WIDTH = 800; // Resize to max 800px width
+                  const scale = MAX_WIDTH / img.width;
+                  canvas.width = MAX_WIDTH;
+                  canvas.height = img.height * scale;
+
+                  const ctx = canvas.getContext('2d');
+                  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                  // Convert to JPEG with 0.7 quality
+                  selectedImageBase64 = canvas.toDataURL('image/jpeg', 0.7);
+                  document.getElementById('imagePreview').src = selectedImageBase64;
+                  console.log("✅ Image compressed. Final size:", Math.round(selectedImageBase64.length / 1024), "KB");
+              };
+              img.src = e.target.result;
           };
           reader.readAsDataURL(file);
       }
 
       async function savebook(){
+          const submitBtn = document.getElementById("submitBtn");
+          const originalText = submitBtn.innerText;
+
           const bookData = {
               bookname: document.getElementById("bookname").value,
               bookauthor: document.getElementById("bookauthor").value,
@@ -109,7 +138,8 @@
               booklanguage: document.getElementById("booklanguage").value,
               bookvolume: document.getElementById("bookvolume").value,
               bookprice: document.getElementById("bookprice").value,
-              bookimage: selectedImageBase64, // Add image data
+              bookclass: document.getElementById("bookclass").value,
+              bookimage: selectedImageBase64,
               user: {
                 name: document.getElementById("name").value,
                 mobile: document.getElementById("mobile").value,
@@ -117,23 +147,41 @@
                 address: document.getElementById("address").value
               }
           };
+
+          if (!bookData.bookclass) { alert("Please select a class!"); return; }
+          if (!selectedImageBase64) { alert("Please upload a book image!"); return; }
+
           const backendURL = "https://bookweb-backend-vu2o.onrender.com";
 
           try {
+              // Show Loading State
+              submitBtn.innerText = "Uploading... Please Wait";
+              submitBtn.disabled = true;
+              submitBtn.style.opacity = "0.7";
+
               const response = await fetch(backendURL + "/upload-book", {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify(bookData)
               });
-              const data = await response.json();
 
-              const message = data.message || (response.ok ? "✅ upload successful" : "❌ Something went wrong");
-              alert(message);
-              if (response.ok) window.location.href = "../index.html";
+              let data = {};
+              try { data = await response.json(); } catch(e) {}
+
+              if (response.ok) {
+                  alert("✅ Book Uploaded Successfully!");
+                  window.location.href = "../index.html";
+              } else {
+                  throw new Error(data.message || "Server rejected the upload");
+              }
           }
           catch (error) {
               console.error("❌ Upload failed:", error);
-              alert("❌ Error uploading book. Check your internet or try again later.");
+              alert("❌ Error: " + error.message + "\n\nTip: If it's a 'Network Error', try a smaller image or check your connection.");
+          } finally {
+              submitBtn.innerText = originalText;
+              submitBtn.disabled = false;
+              submitBtn.style.opacity = "1";
           }
       }
   </script>
