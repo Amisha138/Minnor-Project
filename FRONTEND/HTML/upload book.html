@@ -136,8 +136,8 @@
               bookauthor: document.getElementById("bookauthor").value,
               bookpublication: document.getElementById("bookpublication").value,
               booklanguage: document.getElementById("booklanguage").value,
-              bookvolume: Number(document.getElementById("bookvolume").value),
-              bookprice: Number(document.getElementById("bookprice").value),
+              bookvolume: document.getElementById("bookvolume").value, // Must be String for this backend
+              bookprice: Number(document.getElementById("bookprice").value), // Must be Number for this backend
               user: {
                 name: document.getElementById("name").value,
                 mobile: document.getElementById("mobile").value,
@@ -149,7 +149,7 @@
           const backendURL = "https://bookweb-backend-vu2o.onrender.com";
 
           try {
-              submitBtn.innerText = "Connecting...";
+              submitBtn.innerText = "Uploading...";
               submitBtn.disabled = true;
 
               const response = await fetch(backendURL + "/upload-book", {
