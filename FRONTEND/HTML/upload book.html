@@ -136,10 +136,8 @@
               bookauthor: document.getElementById("bookauthor").value,
               bookpublication: document.getElementById("bookpublication").value,
               booklanguage: document.getElementById("booklanguage").value,
-              bookvolume: document.getElementById("bookvolume").value,
-              bookprice: document.getElementById("bookprice").value,
-              // Compatible Mode: bookclass and bookimage are removed from payload 
-              // because the server doesn't support them yet.
+              bookvolume: Number(document.getElementById("bookvolume").value),
+              bookprice: Number(document.getElementById("bookprice").value),
               user: {
                 name: document.getElementById("name").value,
                 mobile: document.getElementById("mobile").value,
@@ -148,16 +146,11 @@
               }
           };
 
-          // Basic validation
-          if (!bookData.bookname) { alert("Please enter book name!"); return; }
-
           const backendURL = "https://bookweb-backend-vu2o.onrender.com";
 
           try {
-              // Show Loading State
-              submitBtn.innerText = "Uploading... Please Wait";
+              submitBtn.innerText = "Connecting...";
               submitBtn.disabled = true;
-              submitBtn.style.opacity = "0.7";
 
               const response = await fetch(backendURL + "/upload-book", {
                   method: "POST",
@@ -169,19 +162,19 @@
               try { data = await response.json(); } catch(e) {}
 
               if (response.ok) {
-                  alert("✅ Book Uploaded Successfully!");
+                  alert("✅ Success!");
                   window.location.href = "../index.html";
               } else {
-                  throw new Error(data.message || "Server rejected the upload");
+                  console.error("Server Response:", response.status, data);
+                  alert(`❌ Server Error (${response.status}): ${data.message || "Unknown error"}`);
               }
           }
           catch (error) {
-              console.error("❌ Upload failed:", error);
-              alert("❌ Error: " + error.message + "\n\nTip: If it's a 'Network Error', try a smaller image or check your connection.");
+              console.error("Network Error Details:", error);
+              alert(`❌ Connection Error!\nMessage: ${error.message}\n\nTip: Please check if ${backendURL} is accessible in your browser.`);
           } finally {
               submitBtn.innerText = originalText;
               submitBtn.disabled = false;
-              submitBtn.style.opacity = "1";
           }
       }
   </script>
